@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 MongoClient.connect(uri)
   .then(client => {
     db = client.db('pkmn');
+      console.log(db);
     console.log('Connesso a MongoDB');
   })
   .catch(error => console.error('Errore nella connessione a MongoDB:', error))
