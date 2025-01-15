@@ -276,7 +276,7 @@ app.get('/finduser', async (req, res) => {
 });
 
 async function testnome() {
-  try {
+  try {console.log("testnome");
       // Costruisci l'URL con la query string
       const response = await fetch(`/testnome`, {
           method: 'GET',
