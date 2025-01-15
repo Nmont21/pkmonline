@@ -1,0 +1,9 @@
+body{
+    background-color: darkslategrey;
+}
+
+#divinterno{
+    border: 2px solid darkslateblue;
+    border-radius: 2%;
+    background-color: grey;
+}
