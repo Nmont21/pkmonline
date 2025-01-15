@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Connessione al server una sola volta
-MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+MongoClient.connect(uri)
   .then(client => {
     db = client.db('pkmn');
     console.log('Connesso a MongoDB');
