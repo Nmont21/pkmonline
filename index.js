@@ -219,7 +219,7 @@ async function finduser(mail) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(mail)
       });
 
       if (response.ok) {
