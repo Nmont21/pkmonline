@@ -212,6 +212,9 @@ app.post('/login', async (req, res) => {
 
 //-------------------------------------------------ricerca di un utente tramite mail-------------
 async function finduser(mail) {
+  var userData={
+    email:mail
+  }
   try {
       // Costruisci l'URL con la query string
       const response = await fetch('/finduser', {
@@ -219,11 +222,12 @@ async function finduser(mail) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(mail)
+        body: JSON.stringify(userData)
       });
 
       if (response.ok) {
           const result = await response.json();
+          console.log(result);
           return result; 
       } else {
           const error = await response.text();
