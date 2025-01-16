@@ -214,11 +214,12 @@ app.post('/login', async (req, res) => {
 async function finduser(mail) {
   try {
       // Costruisci l'URL con la query string
-      const response = await fetch(`/finduser?nome=${encodeURIComponent(mail)}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json'
-          }
+      const response = await fetch('/finduser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
       });
 
       if (response.ok) {
@@ -254,9 +255,9 @@ function logout(){
 }
 
 
-app.get('/finduser', async (req, res) => {
+app.post('/finduser', async (req, res) => {
   try {
-    const email = req.query.email;  // Ottieni l'email dalla query string
+    const email = req.body.email;  // Ottieni l'email dalla query string
     if (!email) {
       return res.status(400).json('Email non fornita');
     }
