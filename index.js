@@ -57,25 +57,70 @@ async function checkstatocantanti(){
   utente = await finduser(mail);
   return utente.statoc;
 }
+//-------------------------------------------------scarico immagine del pokemo-----------------------------------------------------------
+async function fetchPokemon(nome) {
+  const pokemonName = nome;
+  if (!pokemonName) {
+      alert("Inserisci un nome di Pokémon!");
+      return;
+  }
 
+  try {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+      if (!response.ok) {
+          throw new Error("Pokémon non trovato");
+      }
 
-//----------------------------------------------Aggiunta utente------------------------------------------------
+      const data = await response.json();
 
-async function addUser() {
-    var mail = document.getElementById("emaillogin").value;
-    var username = document.getElementById("username").value;
-    var pass = document.getElementById("passlogin").value;
-    mail.replace(/\s+/g, '');
+      return data.sprites.front_default;
 
+  } catch (error) {
+      alert(error.message);
+  }
+}
+//----------------------------------------------Aggiunta pokemon------------------------------------------------
 
+async function addpokemon() {
+    var nomep= document.getElementById('nomep').value;
+    var nomea= document.getElementById('nomea').value;
+    var tipo1=document.getElementById('tipo1').value;
+    var tipo2=document.getElementById('tipo2').value;
+    var attacco=document.getElementById('attacco').value;
+    var attas=document.getElementById('attas').value;
+    var difesa=document.getElementById('difesa').value;
+    var difes=document.getElementById('difes').value;
+    var vel =document.getElementById('vel').value;
+    var dadomedio=document.getElementById('dadomedio').value;
+    var esperienza=document.getElementById('esperienza').value;
+    var immagine= await fetchPokemon(nomep.toLowerCase());
+    var stat=document.getElementById('stato').value;
+    var box=document.getElementById('box').checked;
+    var sesso=document.querySelector('input[name="sesso"]:checked').value;
+    var natura=document.getElementById('natura').value;
+    var abilita=document.getElementById('abilita').value;
     var userData = {
-        email: mail,
-        nome: username,
-        password: pass
+        nome:nomep,
+        allenatore:nomea,
+        tipi:[tipo1,tipo2],
+        atk:attacco,
+        satk:attas,
+        dif:difesa,
+        sdif:difes,
+        velocit:vel,
+        dm:dadomedio,
+        exp:esperienza,
+        sprite:immagine,
+        stato:stat,
+        inbox:box,
+        sex:sesso,
+        mosse:[],
+        natura:natura,
+        abilita:abilita
     };
 
     try {
-        const response = await fetch('/creaUtente', {
+        const response = await fetch('/addpokemon', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -85,9 +130,7 @@ async function addUser() {
 
         if (response.ok) {
             const result = await response.json();
-            alert('Utente creato con successo!');
-            sessionStorage.setItem("mail",mail);
-            window.location.href="/overlap.html";
+            alert('Pokemon aggiunto con successo!');
         } else {
             const error = await response.text();
             alert('Errore: ' + error);
@@ -98,43 +141,30 @@ async function addUser() {
     }
 };
 
-app.post('/creaUtente', async (req, res) => {
+app.post('/addpokemon', async (req, res) => {
 
   try {
-      const collection = db.collection('utenti');
-
-      // Controllo dell'email
-      const presente = await collection.findOne({ email: req.body.email });
-
-      // Controllo del nome utente in modo case-insensitive
-      const userpres = await collection.findOne({
-          nome: { $regex: new RegExp(`^${req.body.nome}$`, 'i') }  // 'i' è il flag case-insensitive
-      });
-
-      var passhash = await bcrypt.hash(req.body.password, 10);
-
-      if (presente) {
-          return res.status(400).json('Mail usata per un altro account');
-      }
-
-      if (userpres) {
-          return res.status(400).json('Questo nome utente esiste già');
-      }
+      const collection = db.collection('pokemon');
 
       // Creazione del nuovo utente
-      const user = {
-          nome: req.body.nome,
-          email: req.body.email,
-          password: passhash,
-          statog: 0,
-          statoc: 0,
-          generip: [],
-          cantantip: [],
-          playlist: [],
-          pimportate: []
+      const pkmn = {
+        nome:req.body.nome,
+        allenatore:req.body.allenatore,
+        tipi:req.body.tipi,
+        atk:req.body.atk,
+        satk:req.body.satk,
+        dif:req.body.dif,
+        sdif:req.body.sdif,
+        velocita:req.body.velocit,
+        dm:req.body.dm,
+        exp:req.body.exp,
+        sprite:req.body.sprite,
+        stato:req.body.stato,
+        inbox:req.body.inbox,
+        sesso:req.body.sex
       };
 
-      const result = await collection.insertOne(user);
+      const result = await collection.insertOne(pkmn);
       res.status(201).json(result);
   } catch (err) {
       console.error('Errore nella creazione dell\'utente', err);
@@ -240,25 +270,6 @@ async function finduser(mail) {
 }
 
 
-async function getnome(mail){
-  utente = await finduser(mail);
-  return utente.nome;
-
-}
-
-async function welcome(){
-  let mail=sessionStorage.getItem("mail");
-  let nome= await getnome(mail);
-  document.getElementById("h1login").innerHTML="Benvenuto, " + nome;
-
-}
-
-function logout(){
-  sessionStorage.removeItem("mail");
-  window.location.href="/login.html";
-}
-
-
 app.post('/finduser', async (req, res) => {
   try {
     const email = req.body.email;  // Ottieni l'email dalla query string
@@ -281,3 +292,177 @@ app.post('/finduser', async (req, res) => {
   } 
 });
 
+
+
+function logout(){
+  sessionStorage.removeItem("mail");
+  window.location.href="/login.html";
+}
+
+//------------------------------------------------------Conversione da numero a dado-----------------------------------------------------------------
+function classifyAttackStat(stat) {
+  if (stat < 40) return 'd4-1';
+  if (stat >= 40 && stat <= 59) return 'd4';
+  if (stat >= 60 && stat <= 79) return 'd6';
+  if (stat >= 80 && stat <= 99) return 'd8';
+  if (stat >= 100 && stat <= 119) return 'd10';
+  if (stat >= 120 && stat <= 139) return 'd12';
+  if (stat >= 140 && stat <= 159) return 'd12+1';
+  if (stat >= 160 && stat <= 179) return 'd12+2';
+  if (stat >= 180 && stat <= 199) return 'd20-1';
+  return 'd20';  // Per stat >= 200
+}
+
+// Funzione per classificare le statistiche di difesa (difesa, difesa speciale)
+function classifyDefenseStat(stat) {
+  if (stat < 40) return 't1';
+  if (stat >= 40 && stat <= 59) return 't2';
+  if (stat >= 60 && stat <= 79) return 't3';
+  if (stat >= 80 && stat <= 99) return 't4';
+  if (stat >= 100 && stat <= 119) return 't5';
+  if (stat >= 120 && stat <= 139) return 't6';
+  if (stat >= 140 && stat <= 159) return 't7';
+  if (stat >= 160 && stat <= 179) return 't8';
+  if (stat >= 180 && stat <= 199) return 't9';
+  return 't10';  // Per stat >= 200
+}
+
+//-------------------------------------------------Get pokemon di un utente-------------------------------------------------------------------
+async function getuserpkmn() {
+  mail=sessionStorage.getItem('mail')
+  var userData={
+    email: mail
+  }
+  try {
+      // Costruisci l'URL con la query string
+      const response = await fetch('/getuserpkmn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      });
+
+      if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+          return result; 
+      } else {
+          const error = await response.text();
+          alert('Errore: ' + error);
+      }
+  } catch (error) {
+      console.error('Errore nella richiesta:', error);
+      alert('Errore nella richiesta');
+  }
+}
+
+
+app.post('/getuserpkmn', async (req, res) => {
+  try {
+    const email = req.body.email;  // Ottieni l'email dalla query string
+    if (!email) {
+      return res.status(400).json('Email non fornita');
+    }
+
+    const collection = db.collection('pokemon');
+    const presente = await collection.find({ allenatore: email }).toArray();
+
+    if (presente) {
+      return res.status(200).json(presente);  // 200 significa "successo"
+    } else {
+      return res.status(404).json('Utente non trovato');  // Usa 404 per "non trovato"
+    }
+
+  } catch (err) {
+    console.error('Errore', err);
+    res.status(500).send('Errore del server');
+  } 
+});
+
+
+//---------------------------------------Stampa quickteam--------------------------------------------------------------
+async function stampaquickteam() {
+  var pokemons= await getuserpkmn();
+
+  const container = document.getElementById('colquickteam');
+  pokemons.forEach(element => {
+    const img = document.createElement('img');
+          img.classList.add("imgquick"); // Aggiungi la classe CSS
+          img.src = element.sprite; // URL dello sprite
+          img.onclick = () => popquickteam(element);
+
+          // Appendi l'immagine al contenitore
+          container.appendChild(img);
+  });
+  
+}
+
+function popquickteam(dati){
+  document.getElementById("divinterno").style.filter = "blur(2px)";
+  const pop=document.createElement("div");
+  pop.className="overlay-div";
+  pop.innerHTML=`
+  
+
+  <div class='row'> 
+    <div class='row'>
+      <div class='col-sm-auto'>
+        <img src='${dati.sprite}' class='imgquick' style='height:20vh'>
+      </div>
+      <div class='col'>
+        <div class="row">
+          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="w-100"></div>
+          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="w-100"></div>
+          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="w-100"></div>
+          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="w-100"></div>
+          <div class="col">
+            <div class="row" style='margin-top:2%'>
+              <div class="col-sm-auto"><h5>Sesso: M</h5></div>
+              <div class="col-sm-auto"><h5>Natura: Tranquilla</h5></div>
+              <div class="col-sm-auto"><h5>Abilita: Aiutofuoco</h5></div>
+              <div class="col-sm-auto"><h5>Stato: Normale</h5></div>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+ </div><br>
+ <div class='row' style='border-bottom:2px groove black'>
+   <div class="col-sm-4" ><h5>Attacco d'ala</h5></div>
+   <div class="col-sm-4"><h5>Normale</h5></div>
+   <div class="col-sm-4 "><h5>Probabilita confisio antonio mamma mia  del 30%</h5></div>
+ </div>
+  <div class='row' style='border-bottom:2px groove black'>
+   <div class="col-sm-4" ><h5>Attacco d'ala</h5></div>
+   <div class="col-sm-4"><h5>Normale</h5></div>
+   <div class="col-sm-4 "><h5>Probabilita confisio antonio mamma mia  del 30%</h5></div>
+ </div>
+
+ 
+
+      <button class="btn btn-secondary " id="btnannulla" onclick="nascondipop()">Chiudi</button>
+  `;
+  document.body.appendChild(pop);
+
+}
+function nascondipop() {
+  // Rimuove l'effetto blur dal contenitore principale
+  document.getElementById("divinterno").style.filter = "blur(0px)";
+  
+  // Ottiene tutti gli elementi con la classe "overlay-div"
+  const pops = document.getElementsByClassName("overlay-div");
+  
+  // Converte HTMLCollection in un array e itera
+  Array.from(pops).forEach(element => {
+    element.remove(); // Rimuove ogni elemento trovato
+  });
+}
