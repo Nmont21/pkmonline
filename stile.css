@@ -15,57 +15,75 @@ body{
  
 }
 
-  
 #colquickteam {
-    display: grid; /* Trasforma il contenitore in una griglia */
-    grid-template-columns: repeat(2, 1fr); /* Massimo due colonne di larghezza uguale */
-    height: 60vh; /* L'altezza si adatta ai contenuti */
-    overflow: auto; /* Aggiunge uno scroll se i contenuti eccedono */
-    box-sizing: border-box; /* Include padding e bordo nelle dimensioni */
-  }
+  display: grid; /* Trasforma il contenitore in una griglia */
+  grid-template-columns: repeat(2, 1fr); /* Massimo due colonne di larghezza uguale */
+  height: 60vh; /* L'altezza si adatta ai contenuti */
+  overflow: auto; /* Aggiunge uno scroll se i contenuti eccedono */
+  box-sizing: border-box; /* Include padding e bordo nelle dimensioni */
+}
   
-  .imgquick {
-    width: auto;
-    height: 100%;
-    cursor: pointer; /* Cambia il cursore al passaggio del mouse */
-    border-radius: 8px; /* Angoli arrotondati */
-    border-bottom: 1px groove black; /* Bordo opzionale */
+.imgquick {
+  width: auto;
+  height: 100%;
+  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+  border-radius: 8px; /* Angoli arrotondati */
+  border-bottom: 1px groove black; /* Bordo opzionale */
+}
+
+.overlay-div {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, 0); /* Centra l'elemento orizzontalmente */
+  z-index: 1;
+  padding: 20px; /* Spaziatura interna */
+  word-wrap: break-word; /* Consente di andare a capo quando necessario */
+  box-sizing: border-box;
+  width: auto; /* Adatta la larghezza al contenuto */
+  min-width: 30vw; /* Imposta una larghezza minima */
+  max-width: 95%; /* Limita la larghezza massima */
+  background-color: #2b2f33;
+  color: white;
+  border: groove #feb3ff;
+  border-radius: 12px;
+  box-shadow: 1px 2px 4px 2px #c7c7c7;
+  display: inline-block; /* Cambia il comportamento per adattarsi meglio al contenuto */
+  text-align: center;
+  max-height: 60vh;
+  overflow-y: auto;
+  
+}
+  
+@media (max-width: 900px) {
+  #colquickteam {
+    width: 20vw;
+    height: 50vh;
+    grid-template-columns: 1fr; /* Una sola colonna */
   }
 
-  .overlay-div {
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translate(-50%, 0); /* Centra l'elemento orizzontalmente */
-    z-index: 1;
-    padding: 20px; /* Spaziatura interna */
-    word-wrap: break-word; /* Consente di andare a capo quando necessario */
-    box-sizing: border-box;
-    width: auto; /* Adatta la larghezza al contenuto */
-    min-width: 30vw; /* Imposta una larghezza minima */
-    max-width: 95%; /* Limita la larghezza massima */
-    background-color: #2b2f33;
-    color: white;
-    border: groove #feb3ff;
-    border-radius: 12px;
-    box-shadow: 1px 2px 4px 2px #c7c7c7;
-    display: inline-block; /* Cambia il comportamento per adattarsi meglio al contenuto */
-    text-align: center;
-    max-height: 60vh;
-    overflow-y: auto;
-    
+  .overlay-div{
+    max-width: 800px;
   }
-  
-  
-  
-  @media (max-width: 900px) {
-    #colquickteam {
-      width: 20vw;
-      height: 50vh;
-      grid-template-columns: 1fr; /* Una sola colonna */
-    }
+}
 
-    .overlay-div{
-      max-width: 800px;
-    }
-  }
+.grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 0 auto;
+}
+
+.item{
+  border: 1px solid darkslateblue;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center; 
+  vertical-align: middle;
+}
+
+#colquickteam{
+  height: 60vh; /* L'altezza si adatta ai contenuti */
+  overflow: auto; /* Aggiunge uno scroll se i contenuti eccedono */
+  box-sizing: border-box; /* Include padding e bordo nelle dimensioni */
+}
