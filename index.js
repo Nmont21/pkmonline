@@ -161,7 +161,10 @@ app.post('/addpokemon', async (req, res) => {
         sprite:req.body.sprite,
         stato:req.body.stato,
         inbox:req.body.inbox,
-        sesso:req.body.sex
+        sesso:req.body.sex,
+        natura:req.body.natura,
+        abilita: req.body.abilita,
+        mosse: [],
       };
 
       const result = await collection.insertOne(pkmn);
@@ -405,53 +408,52 @@ function popquickteam(dati){
   pop.innerHTML=`
   
 
-  <div class='row'> 
+
     <div class='row'>
       <div class='col-sm-auto'>
         <img src='${dati.sprite}' class='imgquick' style='height:20vh'>
       </div>
       <div class='col'>
         <div class="row">
-          <div class="col"><h5>att: d4-1</h5></div>
-          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="col"><h5>Att: ${classifyAttackStat(dati.atk)}</h5></div>
+          <div class="col"><h5>Dif: ${classifyDefenseStat(dati.dif)}</h5></div>
           <div class="w-100"></div>
-          <div class="col"><h5>att: d4-1</h5></div>
-          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="col"><h5>AttS: ${classifyAttackStat(dati.satk)}</h5></div>
+          <div class="col"><h5>DifS: ${classifyDefenseStat(dati.sdif)}</h5></div>
           <div class="w-100"></div>
-          <div class="col"><h5>att: d4-1</h5></div>
-          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="col"><h5>Vel: ${classifyAttackStat(dati.velocita)}</h5></div>
+          <div class="col"><h5>Stato: ${dati.stato}</h5></div>
           <div class="w-100"></div>
-          <div class="col"><h5>att: d4-1</h5></div>
-          <div class="col"><h5>att: d4-1</h5></div>
+          <div class="col"><h5>dM: ${classifyAttackStat(dati.velocita)}</h5></div>
+          <div class="col"><h5>tM: ${classifyDefenseStat(dati.dm)}</h5></div>
+          <div class="w-100"></div>
+          <div class="col"><h5>PV: 4</h5></div>
+          <div class="col"><h5></div>
           <div class="w-100"></div>
           <div class="col">
+
             <div class="row" style='margin-top:2%'>
               <div class="col-sm-auto"><h5>Sesso: M</h5></div>
               <div class="col-sm-auto"><h5>Natura: Tranquilla</h5></div>
               <div class="col-sm-auto"><h5>Abilita: Aiutofuoco</h5></div>
-              <div class="col-sm-auto"><h5>Stato: Normale</h5></div>
-            </div> 
+            </div>           
           </div>
         </div>
       </div>
     </div>
- </div><br>
- <div class='row' style='border-bottom:2px groove black'>
-   <div class="col-sm-4" ><h5>Attacco d'ala</h5></div>
-   <div class="col-sm-4"><h5>Normale</h5></div>
-   <div class="col-sm-4 "><h5>Probabilita confisio antonio mamma mia  del 30%</h5></div>
- </div>
-  <div class='row' style='border-bottom:2px groove black'>
-   <div class="col-sm-4" ><h5>Attacco d'ala</h5></div>
-   <div class="col-sm-4"><h5>Normale</h5></div>
-   <div class="col-sm-4 "><h5>Probabilita confisio antonio mamma mia  del 30%</h5></div>
- </div>
+ <br>
 
- 
-
-      <button class="btn btn-secondary " id="btnannulla" onclick="nascondipop()">Chiudi</button>
   `;
   document.body.appendChild(pop);
+
+  printmosse(dati);
+  const container=document.getElementsByClassName('overlay-div')[0];
+  const bottone=document.createElement("button");
+  bottone.onclick = () => nascondipop();
+  bottone.innerHTML="Chiudi";
+  bottone.className="btn btn-secondary"
+  bottone.style="margin-top:2%";
+  container.appendChild(bottone)
 
 }
 function nascondipop() {
@@ -464,5 +466,91 @@ function nascondipop() {
   // Converte HTMLCollection in un array e itera
   Array.from(pops).forEach(element => {
     element.remove(); // Rimuove ogni elemento trovato
+  });
+}
+
+//----------------------------------------Funzione per aggiungere mossa ad un pokemon------------------------------------------
+async function aggiungimossa() {
+  var nomemossa= document.getElementById('nomemossa').value;
+  var tipomossa= document.getElementById('tipomossa').value;
+  var tipodanno= document.getElementById('tipodanno').value;
+  var descrizionemossa=document.getElementById('descrizione').value;
+  var pokeid=document.getElementById('pokemonid').value;
+ 
+  var userData = {
+      nome:nomemossa,
+      tipom:tipomossa,
+      tipod:tipodanno,
+      descrizione:descrizionemossa,
+      pokemonid:pokeid
+  };
+
+  try {
+      const response = await fetch('/addmossa', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+      });
+
+      if (response.ok) {
+          const result = await response.json();
+          alert('Mossa aggiunta con successo!');
+      } else {
+          const error = await response.text();
+          alert('Errore: ' + error);
+      }
+  } catch (error) {
+      console.error('Errore nella richiesta:', error);
+      alert('Errore nella richiesta');
+  }
+}
+
+app.post('/addmossa', async (req, res) => {
+
+  try {
+      const collection = db.collection('pokemon');
+
+      // Creazione del nuovo utente
+
+
+      const result = await collection.updateOne(
+        {
+          _id: new ObjectId(req.body.pokemonid) // Sostituisci con l'ObjectId del documento
+      },
+      {
+          $push: {
+              mosse: {
+                nome:req.body.nome,
+                tipod:req.body.tipod,
+                tipom:req.body.tipom,
+                desc:req.body.descrizione
+              }
+          }
+      }
+      );
+      res.status(201).json(result);
+  } catch (err) {
+      console.error('Errore aggiunta mossa', err);
+      res.status(500).send('Errore aggiunta mossa');
+  }
+});
+
+function printmosse(element){
+  const mosse=element.mosse;
+  const container=document.getElementsByClassName('overlay-div')[0];
+  mosse.forEach(mossa => {
+    const riga = document.createElement('div');
+    riga.className='row';
+    riga.style="border-bottom:2px groove black; margin-top:2%";
+    riga.innerHTML=   `
+    <div class="col-sm-3"><h5>${mossa.nome}</h5></div>
+    <div class="col-sm-3"><h5>${mossa.tipom}</h5></div>
+    <div class="col-sm-2"><h5>${mossa.tipod}</h5></div>
+    <div class="col-sm-4"><h5>${mossa.desc}</h5></div>
+   `
+
+  container.appendChild(riga);
   });
 }

@@ -12,15 +12,47 @@
 <div id="divinterno" class="container">
     <div class="row">
         <div class="col-9">
-            <h2 id="welcome"></h2>
-            <h2 id="dadoallenatore">Dado allenatore</h2>
+            <nav class="navbar navbar-expand-lg ">
+                <div class="container-fluid">
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse navmod" id="navbarNav">
+                    <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Squadra</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Pokemon</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">PokeMarket</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">PokeCenter</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Lotta</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Log</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
             <div class="row">
                 <!-- Colonna Zaino -->
-                <div class="col-5">
+                <div class="col-sm-5">
                     <h2>Zaino</h2>
                     <div class="row grid" id="colquickzaino">
                         <div class="item">pozione</div>
                         <div class="item">pokeball</div>
+                        <div class="item"></div>
+                        <div class="item"></div>
                         <div class="item"></div>
                         <div class="item"></div>
                         <div class="item"></div>
@@ -41,14 +73,14 @@
                 <div class="col-4">
                     <h2>Medaglie</h2>
                     <div class="row grid" id="colquickmedaglie">
-                        <div class="item"></div>
-                        <div class="item"></div>
-                        <div class="item"></div>
-                        <div class="item"></div>
-                        <div class="item"></div>
-                        <div class="item"></div>
-                        <div class="item"></div>
-                        <div class="item"></div>
+                        <div class="itemmedaglia"><img src="medaglia.png" class="medaglia"></div>
+                        <div class="itemmedaglia"><img src="medaglia.png" class="medaglia"></div>
+                        <div class="itemmedaglia"><img src="medaglia.png" class="medaglia"></div>
+                        <div class="itemmedaglia"><img src="medaglia.png" class="medaglia"></div>
+                        <div class="itemmedaglia"><img src="medaglia.png" class="medaglia"></div>
+                        <div class="itemmedaglia"><img src="medaglia.png" class="medaglia"></div>
+                        <div class="itemmedaglia"><img src="medaglia.png" class="medaglia"></div>
+                        <div class="itemmedaglia"><img src="medaglia.png" class="medaglia"></div>
                     </div>
                 </div>
             </div>
@@ -71,7 +103,7 @@
             window.location.href = "/index.html";
         } 
         else{ //se utente loggato succede tutto questo
-            document.getElementById('welcome').innerHTML=sessionStorage.getItem('mail');
+
             await stampaquickteam();
 
         }
