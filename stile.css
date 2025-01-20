@@ -23,12 +23,12 @@ body{
     height: 60vh; /* L'altezza si adatta ai contenuti */
     overflow: auto; /* Aggiunge uno scroll se i contenuti eccedono */
     box-sizing: border-box; /* Include padding e bordo nelle dimensioni */
-    margin-top: 3vh;
+    margin-top: 0vh;
   }
   
   .imgquick {
-    width: auto;
-    height: 100%;
+    width: 20vh;
+    height: 20vh;
     cursor: pointer; /* Cambia il cursore al passaggio del mouse */
     border-radius: 8px; /* Angoli arrotondati */
     border-bottom: 1px groove black; /* Bordo opzionale */
@@ -109,14 +109,20 @@ body{
 
 #colquickmedaglie{
   width: fit-content;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0%;
+  margin-left: 5%;
 }
 
     
 @media (max-width: 900px) {
   #colquickteam {
     width: 20vw;
-    height: 30vh;
+    height: 60vh;
     grid-template-columns: 1fr; /* Una sola colonna */
+    margin: 0 auto;
+    padding: 0%;
+    grid-auto-rows: 10vh;
   }
 
   .overlay-div{
@@ -131,5 +137,17 @@ body{
   .grid{
     gap: 15px;
     margin: 0 auto;
+  }
+
+  .imgquick {
+    width: 10vh;
+    height: 10vh;
+    cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+    border-radius: 8px; /* Angoli arrotondati */
+    border-bottom: 1px groove black; /* Bordo opzionale */
+  }
+
+  #colquickmedaglie{
+    grid-template-columns: repeat(4, 1fr);
   }
 }

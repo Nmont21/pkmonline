@@ -424,7 +424,7 @@ function popquickteam(dati){
           <div class="col"><h5>Vel: ${classifyAttackStat(dati.velocita)}</h5></div>
           <div class="col"><h5>Stato: ${dati.stato}</h5></div>
           <div class="w-100"></div>
-          <div class="col"><h5>dM: ${classifyAttackStat(dati.velocita)}</h5></div>
+          <div class="col"><h5>dM: ${classifyAttackStat(dati.dm)}</h5></div>
           <div class="col"><h5>tM: ${classifyDefenseStat(dati.dm)}</h5></div>
           <div class="w-100"></div>
           <div class="col"><h5>PV: 4</h5></div>
@@ -433,9 +433,9 @@ function popquickteam(dati){
           <div class="col">
 
             <div class="row" style='margin-top:2%'>
-              <div class="col-sm-auto"><h5>Sesso: M</h5></div>
-              <div class="col-sm-auto"><h5>Natura: Tranquilla</h5></div>
-              <div class="col-sm-auto"><h5>Abilita: Aiutofuoco</h5></div>
+              <div class="col-sm-auto"><h5>Sesso: ${dati.sesso}</h5></div>
+              <div class="col-sm-auto"><h5>Natura: ${dati.natura}</h5></div>
+              <div class="col-sm-auto"><h5>Abilita: ${dati.abilita}</h5></div>
             </div>           
           </div>
         </div>

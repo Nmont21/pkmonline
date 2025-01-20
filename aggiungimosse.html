@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserisci Dati Pokémon</title>
+</head>
+<body>
+    <h1>Inserisci i dati del Pokémon</h1>
+    <form id="pokemonForm">
+        <label for="nomep">Nome Mossa:</label>
+        <input type="text" id="nomemossa" name="nomep"><br><br>
+        <select id="tipomossa">
+            <option value="Normale">Normale</option>
+            <option value="Fuoco">Fuoco</option>
+            <option value="Acqua">Acqua</option>
+            <option value="Erba">Erba</option>
+            <option value="Elettro">Elettro</option>
+            <option value="Ghiaccio">Ghiaccio</option>
+            <option value="Lotta">Lotta</option>
+            <option value="Veleno">Veleno</option>
+            <option value="Terra">Terra</option>
+            <option value="Volante">Volante</option>
+            <option value="Psico">Psico</option>
+            <option value="Coleottero">Coleottero</option>
+            <option value="Roccia">Roccia</option>
+            <option value="Spettro">Spettro</option>
+            <option value="Drago">Drago</option>
+            <option value="Buio">Buio</option>
+            <option value="Acciaio">Acciaio</option>
+            <option value="Folletto">Folletto</option>
+        </select>
+        <select id="tipodanno">
+            <option value="Fisico">Fisico</option>
+            <option value="Speciale">Speciale</option>
+            <option value="Stato">Stato</option>
+            
+        </select>
+        <label for="nomep">Descrizione:</label>
+        <input type="text" id="descrizione" ><br><br>
+
+        <label for="nomep">idPokemon</label>
+        <input type="text" id="pokemonid" ><br><br>
+        <button type="button" onclick="aggiungimossa()">Salva Pokémon</button>
+    </form>
+
+
+<script src="index.js"></script>
+</body>
+</html>
+
