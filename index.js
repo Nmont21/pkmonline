@@ -99,6 +99,7 @@ async function addpokemon() {
     var sesso=document.querySelector('input[name="sesso"]:checked').value;
     var natura=document.getElementById('natura').value;
     var abilita=document.getElementById('abilita').value;
+    var pv=document.getElementById('pv').value;
     var userData = {
         nome:nomep,
         allenatore:nomea,
@@ -116,7 +117,8 @@ async function addpokemon() {
         sex:sesso,
         mosse:[],
         natura:natura,
-        abilita:abilita
+        abilita:abilita,
+        puntivita:pv
     };
 
     try {
@@ -165,6 +167,10 @@ app.post('/addpokemon', async (req, res) => {
         natura:req.body.natura,
         abilita: req.body.abilita,
         mosse: [],
+        evol1: 0,
+        evol2:0,
+        pv:req.body.puntivita,
+        pvmax:req.body.puntivita
       };
 
       const result = await collection.insertOne(pkmn);
@@ -383,6 +389,60 @@ app.post('/getuserpkmn', async (req, res) => {
   } 
 });
 
+//--------------------------------------Prende i dati di un utente---------------------------------------------------
+
+async function getuserdata() {
+  mail=sessionStorage.getItem('mail')
+  var userData={
+    email: mail
+  }
+  try {
+      // Costruisci l'URL con la query string
+      const response = await fetch('/getuserdata', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      });
+
+      if (response.ok) {
+          const result = await response.json();
+          return result; 
+      } else {
+          const error = await response.text();
+          alert('Errore: ' + error);
+      }
+  } catch (error) {
+      console.error('Errore nella richiesta:', error);
+      alert('Errore nella richiesta');
+  }
+}
+
+
+app.post('/getuserdata', async (req, res) => {
+  try {
+    const email = req.body.email;  // Ottieni l'email dalla query string
+    if (!email) {
+      return res.status(400).json('Email non fornita');
+    }
+
+    const collection = db.collection('utenti');
+    const presente = await collection.find({ nome: email }).toArray();
+
+
+    if (presente) {
+      return res.status(200).json(presente);  // 200 significa "successo"
+    } else {
+      return res.status(404).json('Utente non trovato');  // Usa 404 per "non trovato"
+    }
+
+  } catch (err) {
+    console.error('Errore', err);
+    res.status(500).send('Errore del server');
+  } 
+});
+
 
 //---------------------------------------Stampa quickteam--------------------------------------------------------------
 async function stampaquickteam() {
@@ -427,7 +487,7 @@ function popquickteam(dati){
           <div class="col"><h5>dM: ${classifyAttackStat(dati.dm)}</h5></div>
           <div class="col"><h5>tM: ${classifyDefenseStat(dati.dm)}</h5></div>
           <div class="w-100"></div>
-          <div class="col"><h5>PV: 4</h5></div>
+          <div class="col"><h5>PV: ${dati.pv}/${dati.pvmax}</h5></div>
           <div class="col"><h5></div>
           <div class="w-100"></div>
           <div class="col">
@@ -436,6 +496,7 @@ function popquickteam(dati){
               <div class="col-sm-auto"><h5>Sesso: ${dati.sesso}</h5></div>
               <div class="col-sm-auto"><h5>Natura: ${dati.natura}</h5></div>
               <div class="col-sm-auto"><h5>Abilita: ${dati.abilita}</h5></div>
+              <div class="col-sm-auto" ><h5 id='tipo'></h5></div>
             </div>           
           </div>
         </div>
@@ -454,6 +515,11 @@ function popquickteam(dati){
   bottone.className="btn btn-secondary"
   bottone.style="margin-top:2%";
   container.appendChild(bottone)
+  if(dati.tipi[1]=="")
+    document.getElementById('tipo').innerHTML=dati.tipi[0];
+  else
+  document.getElementById('tipo').innerHTML=dati.tipi[0] + '/' + dati.tipi[1];
+
 
 }
 function nascondipop() {
@@ -468,6 +534,159 @@ function nascondipop() {
     element.remove(); // Rimuove ogni elemento trovato
   });
 }
+
+//---------------------------------------Funzione che stampa gli oggetti-------------------------------------------------
+async function stampaoggetti() {
+  var oggetti= await getuserdata();
+
+  const container = document.getElementById('colquickzaino');
+  oggetti[0].inventario.forEach(element => {
+    const img = document.createElement('div');
+          img.classList.add("item"); // Aggiungi la classe CSS
+          img.innerHTML=element.nome;
+          img.onclick = () => popitem(element);
+
+          // Appendi l'immagine al contenitore
+          container.appendChild(img);
+  });
+  
+}
+
+//---------------funzione per usare item-----------------------
+
+async function usaitem(itemName) {
+  mail=sessionStorage.getItem('mail')
+  var userData={
+    email: mail,
+    oggetto: itemName._id
+  }
+  try {
+      // Costruisci l'URL con la query string
+      const response = await fetch('/usaitem', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      });
+
+      if (response.ok) {
+          const result = await response.json();
+          return result; 
+      } else {
+          const error = await response.text();
+          alert('Errore: ' + error);
+      }
+  } catch (error) {
+      console.error('Errore nella richiesta:', error);
+      
+  }
+  
+}
+
+app.post('/usaitem', async (req, res) => {
+  try {
+    const email = req.body.email;  // Ottieni l'email dell'utente
+    const oggettoId = req.body.oggetto; // Ottieni l'_id dell'oggetto
+    if (!email || !oggettoId) {
+      return res.status(400).json('Email o ID oggetto non forniti');
+    }
+
+    const collection = db.collection('utenti');
+    const result = await collection.updateOne(
+      { nome: email }, // Filtro per trovare l'utente
+      { $pull: { inventario: { _id: new ObjectId(oggettoId) } } } // Rimuove l'oggetto con il _id specifico
+    );
+
+    if (result.modifiedCount > 0) {
+      return res.status(200).json({ success: true, message: 'Oggetto rimosso con successo' });
+    } else {
+      return res.status(404).json({ success: false, message: 'Oggetto o utente non trovato' });
+    }
+
+  } catch (err) {
+    console.error('Errore', err);
+    res.status(500).send('Errore del server');
+  }
+});
+
+//----------------funzione per card item------------------------------
+function popitem(dati) {
+  // Applica un effetto di sfocatura
+  document.getElementById("divinterno").style.filter = "blur(2px)";
+
+  // Crea un elemento popup
+  const pop = document.createElement("div");
+  pop.className = "overlay-div";
+
+  // Aggiungi il contenuto del popup
+  pop.innerHTML = `
+    <h2>Vuoi utilizzare questo oggetto?</h2>
+    <button id="btn-si" class='btn btn-outline-primary'>Si</button>
+    <button onclick="nascondipop()" class='btn btn-outline-danger'>No</button>
+  `;
+
+  // Aggiungi il popup al body
+  document.body.appendChild(pop);
+
+  // Assegna l'evento al pulsante "Si"
+  document.getElementById("btn-si").addEventListener("click", function () {
+    usaitem(dati); // Passa direttamente l'oggetto dati
+    nascondipop();
+    window.location.href="homepage.html" // Nascondi il popup dopo aver usato l'oggetto
+  });
+}
+
+//----------------------------------------Funzione per aggiungere un oggetto------------------------------------------------
+async function additem() {
+  var nomep= document.getElementById('nomep').value;
+  var nomea= document.getElementById('nomea').value;
+  
+  var userData = {
+      nome:nomep,
+      allenatore:nomea
+      
+  };
+
+  try {
+      const response = await fetch('/additem', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+      });
+
+      if (response.ok) {
+          const result = await response.json();
+          alert('Oggetto aggiunto con successo');
+      } else {
+          const error = await response.text();
+          alert('Errore: ' + error);
+      }
+  } catch (error) {
+      console.error('Errore nella richiesta:', error);
+      alert('Errore nella richiesta');
+  }
+};
+
+app.post('/additem', async (req, res) => {
+
+  try {
+      const collection = db.collection('utenti');
+
+      // Creazione del nuovo utente
+
+
+      const result = await collection.updateOne({
+        nome:req.body.allenatore
+      },{$push:{ inventario: {_id: new ObjectId(), nome: req.body.nome}}});
+      res.status(201).json(result);
+  } catch (err) {
+      console.error('Errore nella creazione dell\'utente', err);
+      res.status(500).send('Errore nella creazione dell\'utente');
+  }
+});
 
 //----------------------------------------Funzione per aggiungere mossa ad un pokemon------------------------------------------
 async function aggiungimossa() {
