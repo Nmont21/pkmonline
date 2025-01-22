@@ -549,6 +549,8 @@ async function stampaoggetti() {
           // Appendi l'immagine al contenitore
           container.appendChild(img);
   });
+
+  document.getElementById("hdenari").innerHTML="Soldi: $" + oggetti[0].soldi;
   
 }
 
@@ -773,3 +775,186 @@ function printmosse(element){
   container.appendChild(riga);
   });
 }
+
+//--------------------------------------------Funzione per riempire il pc---------------------------------------------------------
+
+async function riempipc() {
+  var pokemons= await getuserpkmn();
+
+  const containerteam = document.getElementById('teampc');
+  const containerbox = document.getElementById('boxpc');
+  pokemons.forEach(element => {
+    const img = document.createElement('img');
+          img.classList.add("imgpc"); // Aggiungi la classe CSS
+          img.src = element.sprite; // URL dello sprite
+          img.onclick = () => poppc(element);
+
+          // Appendi l'immagine al contenitore
+          if(element.inbox)
+            containerbox.appendChild(img);
+          else
+            containerteam.appendChild(img);
+  });
+  
+}
+
+function poppc(element){
+  document.getElementById("divinterno").style.filter = "blur(2px)";
+  const pop=document.createElement("div");
+  pop.className="overlay-div";
+  if(element.inbox)
+  pop.innerHTML=`<h2>Vuoi prelevare il pokemon?</h2>`;
+else
+pop.innerHTML=`<h2>Vuoi depositare il pokemon?</h2>`;
+
+  document.body.appendChild(pop);
+
+  const container=document.getElementsByClassName('overlay-div')[0];
+  const bottone=document.createElement("button");
+  bottone.onclick = () => preledepo(element);
+  bottone.innerHTML="Si";
+  bottone.className="btn btn-secondary"
+  bottone.style="margin-top:2%; margin-right:2%";
+  container.appendChild(bottone);
+  const bottoneok=document.createElement("button");
+  bottoneok.onclick = () => nascondipop();
+  bottoneok.innerHTML="Chiudi";
+  bottoneok.className="btn btn-secondary"
+  bottoneok.style="margin-top:2%";
+  container.appendChild(bottoneok);
+
+}
+
+//--------------------------------------------Funzione per prelevare o depositare-------------------------------------
+async function preledepo(pokemon){
+  console.log(pokemon)
+  var valore=!pokemon.inbox;
+  
+  var userData = {
+    id:pokemon._id,
+    val:valore
+};
+
+try {
+    const response = await fetch('/box', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+    });
+
+    if (response.ok) {
+        const result = await response.json();
+    } else {
+        const error = await response.text();
+        alert('Errore: ' + error);
+    }
+} catch (error) {
+    console.error('Errore nella richiesta:', error);
+    alert('Errore nella richiesta');
+}
+window.location.href="pokecenter.html";
+}
+
+app.post('/box', async (req, res) => {
+  try {
+
+
+      // Verifica ID valido
+      if (!ObjectId.isValid(req.body.id)) {
+          return res.status(400).send('ID non valido');
+      }
+
+      const collection = db.collection('pokemon');
+
+      // Aggiornamento del documento
+      const result = await collection.updateOne(
+          { _id: new ObjectId(req.body.id) },
+          { $set: { inbox: req.body.val } }
+      );
+
+      // Controllo del risultato
+      if (result.matchedCount === 0) {
+          return res.status(404).send('Documento non trovato');
+      }
+
+      res.status(201).json(result);
+  } catch (err) {
+      console.error('Errore durante l\'aggiornamento del documento', err);
+      res.status(500).send('Errore del server');
+  }
+});
+
+
+
+//---------------------------------------------funzione per curare il team----------------------------------------------------------
+async function curateam(){
+  var team= await getuserpkmn();
+ team.forEach(element => {
+  if(!element.inbox){
+     cura(element);
+  }
+
+ });
+
+ alert("I tuoi pokemon sono stati curati")
+window.location.href="pokecenter.html";
+}
+
+async function cura(element) {
+var userData={
+  idpokemon: element._id,
+  pvmax: element.pvmax
+}
+try {
+  const response = await fetch('/cura', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+  });
+
+  if (response.ok) {
+      const result = await response.json();
+  } else {
+      const error = await response.text();
+      alert('Errore: ' + error);
+  }
+} catch (error) {
+  console.error('Errore nella richiesta:', error);
+  alert('Errore nella richiesta');
+}
+
+  
+}
+
+app.post('/cura', async (req, res) => {
+  try {
+
+
+      // Verifica ID valido
+      if (!ObjectId.isValid(req.body.idpokemon)) {
+          return res.status(400).send('ID non valido');
+      }
+
+      const collection = db.collection('pokemon');
+
+      // Aggiornamento del documento
+      const result = await collection.updateOne(
+          { _id: new ObjectId(req.body.idpokemon) },
+          { $set: { pv: req.body.pvmax,stato:'Normale' } }
+      );
+
+      // Controllo del risultato
+      if (result.matchedCount === 0) {
+          return res.status(404).send('Documento non trovato');
+      }
+
+      res.status(201).json(result);
+  } catch (err) {
+      console.error('Errore durante l\'aggiornamento del documento', err);
+      res.status(500).send('Errore del server');
+  }
+});

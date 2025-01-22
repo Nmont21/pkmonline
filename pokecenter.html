@@ -11,7 +11,7 @@
 
 <div id="divinterno" class="container">
     <div class="row">
-        <div class="col-9">
+        
             <nav class="navbar navbar-expand-lg ">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,11 +47,34 @@
                     </div>
                 </div>
             </nav>
-        </div>
+        
     </div>
     <div class="row">
-        <img src="mappa.jpeg" class="img-thumbnail" alt="Immagine" data-toggle="modal" data-target="#imageModal">
+        <!-- Colonna con l'immagine e il pulsante -->
+        <div class="col-sm-4 d-flex flex-column justify-content-center align-items-center colpc">
+            <img src="infermierajoy.png" style="width: 10vh; height: auto;">
+            <div class="w-100 text-center mt-2">
+                <button class="btn btn-secondary" onclick="curateam()">Cura Team</button>
+            </div>
+        </div>
+    
+        <!-- Colonna principale con teampc e boxpc -->
+        <div class="col-sm-8 colbox">
+            <div class="row">
+                <!-- Colonna per #teampc -->
+                <div class="col-sm-6 colteampc" id="teampc" style="overflow: auto; ">
+                    <h3>Team:</h3>
+                </div>
+                
+                <!-- Colonna per #boxpc -->
+                <div class="col-sm-6 colteampc" id="boxpc">
+                    <h3>Box:</h3>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
@@ -63,6 +86,7 @@
         if (!utenteloggato()) {
             window.location.href = "/index.html";
         } 
+        await riempipc();
 
         
         }
@@ -70,6 +94,5 @@
     
     
     </script>
-
 </body>
 </html>

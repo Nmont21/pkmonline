@@ -40,6 +40,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="log.html">Log</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" onclick="logout()" style="color: red;">Log-Out</a>
+                    </li>
                     </ul>
                 </div>
                 </div>
@@ -48,29 +51,11 @@
                 <!-- Colonna Zaino -->
                 <div class="col-sm-7">
                     <h2>Zaino</h2>
-                    <div class="row grid" id="colquickzaino">
-                        <div class="item">pozione</div>
-                        <div class="item">pokeball</div>
-                        <div class="item">pozione</div>
-                        <div class="item">pokeball</div>
-                        <div class="item">pozione</div>
-                        <div class="item">pokeball</div>
-                        <div class="item">pozione</div>
-                        <div class="item">pokeball</div>
-                        <div class="item">pozione</div>
-                        <div class="item">pokeball</div>
-                        <div class="item">pozione</div>
-                        <div class="item">pokeball</div>
-                        <div class="item">pozione</div>
-                        <div class="item">pokeball</div>
-                        <div class="item">pozione</div>
-                        <div class="item">pokeball</div>
-                        <div class="item">pozione</div>
-                        <div class="item">pokeball</div>
+                    <div class="row" id="colquickzaino">
                     </div>
-                </div><div class="col-sm-4" style="margin-top: 2%;align-items: end;">
-                  <h3 style=" width: 10vw;">Soldi: $100</h3>
-                  <div class="row" style="margin-top: 2%;">
+                </div><div class="col-sm-5" style="margin-top: 2%;align-items: end;">
+                  <h3 style=" width: 10vw;" id="hdenari"></h3>
+                  <div class="row" style="margin-top: 2%; overflow-wrap: break-word;">
                     <h2>Medaglie</h2>
                     <div class="row grid" id="colquickmedaglie">
                         <div class="itemmedaglia"><img src="medaglia.png" class="medaglia"></div>
@@ -108,6 +93,8 @@
         else{ //se utente loggato succede tutto questo
 
             await stampaquickteam();
+            await stampaoggetti();
+            
 
         }
         
