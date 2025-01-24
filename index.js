@@ -958,3 +958,432 @@ app.post('/cura', async (req, res) => {
       res.status(500).send('Errore del server');
   }
 });
+
+//------------------------------------------------Sezione lotta pokemon-------------------------------------------------------
+//Stampa pokemon disponibili
+async function printlottateam() {
+  const pokemon=await getuserpkmn();
+  const container=document.getElementById("teamlotta");
+  container.innerHTML='';
+  pokemon.forEach(element => {
+    if(Number(element.pv)>0){
+      const img = document.createElement('img');
+          img.classList.add("imgpc"); // Aggiungi la classe CSS
+          img.src = element.sprite; // URL dello sprite
+          img.onclick = () => schiera(element);
+
+          // Appendi l'immagine al contenitore
+          container.appendChild(img);
+    }
+  
+   });
+
+  
+}
+
+function schiera(dati){
+  sessionStorage.setItem('pokemonid',dati._id);
+  const container= document.getElementById('scheda');
+  container.innerHTML='';
+  const scheda = document.createElement('div');
+  scheda.className='row';
+  scheda.innerHTML=` <div class='col-sm-auto'>
+        <img src='${dati.sprite}' class='imgpc' ></div>
+      <div class='col'>
+        <div class="row">
+          <div class="col"><h5>Att: ${classifyAttackStat(dati.atk)}</h5></div>
+          <div class="col"><h5>Dif: ${classifyDefenseStat(dati.dif)}</h5></div>
+          <div class="w-100"></div>
+          <div class="col"><h5>AttS: ${classifyAttackStat(dati.satk)}</h5></div>
+          <div class="col"><h5>DifS: ${classifyDefenseStat(dati.sdif)}</h5></div>
+          <div class="w-100"></div>
+          <div class="col"><h5>Vel: ${classifyAttackStat(dati.velocita)}</h5></div>
+          <div class="col"><h5>Stato: ${dati.stato}</h5></div>
+          <div class="w-100"></div>
+          <div class="col"><h5>dM: ${classifyAttackStat(dati.dm)}</h5></div>
+          <div class="col"><h5>tM: ${classifyDefenseStat(dati.dm)}</h5></div>
+          <div class="w-100"></div>
+          <div class="col"><h5>PV: ${dati.pv}/${dati.pvmax}</h5></div>
+          <div class="col"><h5></div>
+          <div class="w-100"></div>
+          <div class="col">
+
+            <div class="row" style='margin-top:2%'>
+              <div class="col-sm-auto"><h5>Sesso: ${dati.sesso}</h5></div>
+              <div class="col-sm-auto"><h5>Natura: ${dati.natura}</h5></div>
+              <div class="col-sm-auto"><h5>Abilita: ${dati.abilita}</h5></div>
+              <div class="col-sm-auto" ><h5 id='tipo'></h5></div>
+            </div>           
+          </div>
+        </div>
+      </div>`
+
+      container.appendChild(scheda);
+      if(dati.tipi[1]=="")
+        document.getElementById('tipo').innerHTML=dati.tipi[0];
+      else
+      document.getElementById('tipo').innerHTML=dati.tipi[0] + '/' + dati.tipi[1];
+
+      printmosselotta(dati);
+}
+
+
+
+function printmosselotta(element){
+  const mosse=element.mosse;
+  const container=document.getElementById('scheda');
+  mosse.forEach(mossa => {
+    const riga = document.createElement('div');
+    riga.className='row';
+    riga.style="border-bottom:2px groove black; margin-top:2%";
+    riga.innerHTML=   `
+    <div class="col-sm-3"><h5>${mossa.nome}</h5></div>
+    <div class="col-sm-3"><h5>${mossa.tipom}</h5></div>
+    <div class="col-sm-2"><h5>${mossa.tipod}</h5></div>
+    <div class="col-sm-4"><h5>${mossa.desc}</h5></div>
+   `
+
+  container.appendChild(riga);
+  });
+}
+
+//--------------------Funzione per incrementare/decrementare i PV----------------------------------------
+async function cercapokemon(pokemonid) {
+  const userData={
+    id:pokemonid
+  }
+  
+  try {
+    const response = await fetch('/cercapokemon', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+    });
+  
+    if (response.ok) {
+        const result = await response.json();
+      return result;
+      
+    } else {
+        const error = await response.text();
+        alert('Errore: ' + error);
+    }
+  } catch (error) {
+    console.error('Errore nella richiesta:', error);
+    alert('Errore nella richiesta');
+  }
+  
+    
+  }
+  
+  app.post('/cercapokemon', async (req, res) => {
+    try {
+  
+        // Verifica ID valido
+        if (!ObjectId.isValid(req.body.id)) {
+            return res.status(400).send('ID non valido');
+        }
+  
+        const collection = db.collection('pokemon');
+  
+        // Aggiornamento del documento
+        const result = await collection.findOne(
+            { _id: new ObjectId(req.body.id)}
+        );
+  
+        res.status(201).json(result);
+    } catch (err) {
+        console.error('Errore durante l\'aggiornamento del documento', err);
+        res.status(500).send('Errore del server');
+    }
+  });
+  
+async function PV(val){
+  pokemon = sessionStorage.getItem('pokemonid');
+  const dati= await cercapokemon(pokemon);
+  var pv=Number(dati.pv);
+  if(val==0)
+    pv--;
+  else
+  pv++;
+  
+  const userData={
+    pvu:pv,
+    id:dati._id
+  }
+  
+  try {
+    const response = await fetch('/updatepv', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+    });
+  
+    if (response.ok) {
+        const result = await response.json();
+         schiera(await cercapokemon(pokemon));
+         await printlottateam();
+         if(pv==0){
+          window.location.href='lotta.html';
+          sessionStorage.removeItem('pokemonid');
+
+         }
+          
+  
+      return result;
+      
+    } else {
+        const error = await response.text();
+        alert('Errore: ' + error);
+    }
+  } catch (error) {
+    console.error('Errore nella richiesta:', error);
+    alert('Errore nella richiesta');
+  }
+
+    
+  }
+  
+  app.post('/updatepv', async (req, res) => {
+    try {
+  
+        // Verifica ID valido
+        if (!ObjectId.isValid(req.body.id)) {
+            return res.status(400).send('ID non valido');
+        }
+  
+        const collection = db.collection('pokemon');
+  
+        // Aggiornamento del documento
+        const result = await collection.updateOne(
+          { _id: new ObjectId(req.body.id) },
+          { $set: { pv: req.body.pvu } }
+      );
+  
+        res.status(201).json(result);
+    } catch (err) {
+        console.error('Errore durante l\'aggiornamento del documento', err);
+        res.status(500).send('Errore del server');
+    }
+  });
+
+
+  async function cambiastato(valore){
+    pokemon = sessionStorage.getItem('pokemonid');
+    const dati= await cercapokemon(pokemon);
+    
+    const userData={
+      stato:valore,
+      id:dati._id
+    }
+    
+    try {
+      const response = await fetch('/updatestato', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+      });
+    
+      if (response.ok) {
+          const result = await response.json();
+           schiera(await cercapokemon(pokemon));
+           await printlottateam();
+    
+        return result;
+        
+      } else {
+          const error = await response.text();
+          alert('Errore: ' + error);
+      }
+    } catch (error) {
+      console.error('Errore nella richiesta:', error);
+      alert('Errore nella richiesta');
+    }
+  
+      
+    }
+    
+    app.post('/updatestato', async (req, res) => {
+      try {
+    
+          // Verifica ID valido
+          if (!ObjectId.isValid(req.body.id)) {
+              return res.status(400).send('ID non valido');
+          }
+    
+          const collection = db.collection('pokemon');
+    
+          // Aggiornamento del documento
+          const result = await collection.updateOne(
+            { _id: new ObjectId(req.body.id) },
+            { $set: { stato: req.body.stato } }
+        );
+    
+          res.status(201).json(result);
+      } catch (err) {
+          console.error('Errore durante l\'aggiornamento del documento', err);
+          res.status(500).send('Errore del server');
+      }
+    });
+//------------------------------------------------Funzioni per incontri pokemon avversari----------------------------------------------
+
+
+    async function incontra() {
+      const avversario = document.getElementById('nomep').value;
+    
+      // Recupera direttamente lo sprite dal Pokémon
+      const sprite = await fetchPokemon(avversario.toLowerCase());
+    
+      try {
+        const response = await fetch('/incontra', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ sprite }), // Invia la stringa dello sprite
+        });
+    
+        if (response.ok) {
+          const result = await response.json();
+          alert('Sprite aggiunto con successo!');
+          return result;
+        } else {
+          const error = await response.text();
+          alert('Errore: ' + error);
+        }
+      } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        alert('Errore nella richiesta');
+      }
+    }
+
+    app.post('/incontra', async (req, res) => {
+      try {
+        const collection = db.collection('campo');
+    
+        // Aggiungi la stringa dello sprite all'array `pokemon`
+        const result = await collection.updateOne(
+          {},
+          { $push: { pokemon: req.body.sprite } } // Aggiunge lo sprite (stringa)
+        );
+    
+        if (result.modifiedCount > 0) {
+          res.status(201).json({ success: true, message: 'Sprite aggiunto con successo' });
+        } else {
+          res.status(404).json({ success: false, message: 'Documento non trovato' });
+        }
+      } catch (err) {
+        console.error('Errore durante l\'aggiornamento del documento', err);
+        res.status(500).send('Errore del server');
+      }
+    });
+    
+    async function stampaavversari() {
+      try {
+        const response = await fetch('/avversari');
+        if (!response.ok) {
+          throw new Error('Errore durante il recupero degli avversari');
+        }
+    
+        const spriteList = await response.json();
+    
+        // Seleziona il div con id "avversari"
+        const avversariDiv = document.getElementById('avversari');
+    
+        // Pulisce il div prima di aggiungere nuovi sprite
+        avversariDiv.innerHTML = '';
+    
+        // Aggiunge ogni sprite come immagine nel div
+        spriteList.forEach((sprite) => {
+          const img = document.createElement('img');
+          img.src = sprite;
+          img.className='imgpc';
+          avversariDiv.appendChild(img);
+        });
+      } catch (error) {
+        console.error('Errore nella funzione stampaAvversari:', error);
+        alert('Impossibile recuperare gli avversari');
+      }
+    }
+    
+
+app.get('/avversari', async (req, res) => {
+  try {
+    const collection = db.collection('campo');
+
+    // Recupera i documenti e restituisce l'array `pokemon` come risposta
+    const document = await collection.findOne({});
+    if (document && document.pokemon) {
+      res.status(200).json(document.pokemon);
+    } else {
+      res.status(404).json({ message: 'Nessun avversario trovato' });
+    }
+  } catch (err) {
+    console.error('Errore durante il recupero degli avversari:', err);
+    res.status(500).send('Errore del server');
+  }
+});
+
+//-----------funzione per comprare un oggetto dal pokemarket-------------------------------------------------------
+async function compraitem(nome, prezzo) {
+  const dati = await getuserdata(); 
+  if (dati[0].soldi < prezzo)
+  {
+    alert("Non puoi acquistare l'oggetto in quanto il tuo saldo è inferiore al suo prezzo");
+    res.status(500).send('Saldo non sufficiente');
+    return;
+  }
+  const saldo = dati[0].soldi - prezzo;
+  var userData = {
+      nome: nome,
+      allenatore: sessionStorage.getItem('mail'),
+      saldo: saldo
+  };
+
+  try {
+      const response = await fetch('/compraitem', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+      });
+
+      if (response.ok) {
+          const result = await response.json();
+          alert('Oggetto aggiunto con successo');
+      } else {
+          const error = await response.text();
+          alert('Errore: ' + error);
+      }
+  } catch (error) {
+      console.error('Errore nella richiesta:', error);
+      alert('Errore nella richiesta');
+  }
+};
+
+app.post('/compraitem', async (req, res) => {
+
+  try {
+      const collection = db.collection('utenti');
+
+      // Creazione del nuovo utente
+
+
+      const result = await collection.updateOne(
+        {nome: req.body.allenatore},
+        {$push:{ inventario: {_id: new ObjectId(), nome: req.body.nome}},
+        $set:{soldi: req.body.saldo}}
+      );
+      res.status(201).json(result);
+  } catch (err) {
+      console.error('Errore nella creazione dell utente', err);
+      res.status(500).send('Errore nella creazione dell utente');
+  }
+});
