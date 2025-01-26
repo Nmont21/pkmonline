@@ -989,13 +989,14 @@ async function printlottateam() {
   container.innerHTML='';
   pokemon.forEach(element => {
     if(Number(element.pv)>0){
+        if(!element.inbox){
       const img = document.createElement('img');
           img.classList.add("imgpc"); // Aggiungi la classe CSS
           img.src = element.sprite; // URL dello sprite
           img.onclick = () => schiera(element);
 
           // Appendi l'immagine al contenitore
-          container.appendChild(img);
+          container.appendChild(img);}
     }
   
    });
