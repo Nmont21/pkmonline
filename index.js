@@ -450,13 +450,35 @@ async function stampaquickteam() {
 
   const container = document.getElementById('colquickteam');
   pokemons.forEach(element => {
-    const img = document.createElement('img');
-          img.classList.add("imgquick"); // Aggiungi la classe CSS
-          img.src = element.sprite; // URL dello sprite
-          img.onclick = () => popquickteam(element);
+    if(!element.inbox){
+      const img = document.createElement('img');
+      img.classList.add("imgquick"); // Aggiungi la classe CSS
+      img.src = element.sprite; // URL dello sprite
+      img.onclick = () => popquickteam(element);
 
-          // Appendi l'immagine al contenitore
-          container.appendChild(img);
+      // Appendi l'immagine al contenitore
+      container.appendChild(img);
+    }
+
+  });
+  
+}
+
+async function stampatutti() {
+  var pokemons= await getuserpkmn();
+
+  const container = document.getElementById('colteam');
+  pokemons.forEach(element => {
+    
+      const img = document.createElement('img');
+      img.classList.add("imgquick"); // Aggiungi la classe CSS
+      img.src = element.sprite; // URL dello sprite
+      img.onclick = () => popquickteam(element);
+
+      // Appendi l'immagine al contenitore
+      container.appendChild(img);
+    
+
   });
   
 }
