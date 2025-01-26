@@ -16,6 +16,33 @@ body{
 
 }
 
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: darkslateblue;
+  color:white;
+}
+
+.table-striped > tbody > tr:nth-child(even) > td, .table-striped > tbody > tr:nth-child(even) > th {
+  background-color: rgb(3, 3, 3);
+  color:white;
+}
+
+.custom-table img {
+  width: 70%;
+  height: 70%;
+  object-fit: cover;
+}
+
+.custom-table > tbody > tr:nth-child(even) > td > .btn-primary {
+  background-color: rgb(217, 201, 178) !important;
+  border-color: rgb(217, 201, 178) !important;
+  color: black;
+}
+
+.custom-table > tbody > tr:nth-child(odd) > td > .btn-primary {
+  background-color: rgb(217, 201, 178) !important;
+  border-color: rgb(217, 201, 178) !important;
+  color: black;
+}
 
 #colquickteam {
   display: grid; /* Trasforma il contenitore in una griglia */
