@@ -1,11 +1,11 @@
 body{
-  background-color: darkslategrey;
+  background-color: #0D1B2A;
 }
 
 #divinterno{
-  border: 2px solid darkslateblue;
+  border: 2px solid #E0E1DD;
   border-radius: 2%;
-  background-color: rgb(217, 201, 178);
+  background-color: #1B263B;
   margin-top: 2%;
   margin-bottom: 2%;
   min-height: 90vh;
@@ -13,36 +13,10 @@ body{
   max-width: 96vw;
   align-items: stretch; /* Fa sì che i figli si allunghino in altezza */
   overflow: auto;
+  color: white;
 
 }
 
-.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
-  background-color: darkslateblue;
-  color:white;
-}
-
-.table-striped > tbody > tr:nth-child(even) > td, .table-striped > tbody > tr:nth-child(even) > th {
-  background-color: rgb(3, 3, 3);
-  color:white;
-}
-
-.custom-table img {
-  width: 70%;
-  height: 70%;
-  object-fit: cover;
-}
-
-.custom-table > tbody > tr:nth-child(even) > td > .btn-primary {
-  background-color: rgb(217, 201, 178) !important;
-  border-color: rgb(217, 201, 178) !important;
-  color: black;
-}
-
-.custom-table > tbody > tr:nth-child(odd) > td > .btn-primary {
-  background-color: rgb(217, 201, 178) !important;
-  border-color: rgb(217, 201, 178) !important;
-  color: black;
-}
 
 #colquickteam {
   display: grid; /* Trasforma il contenitore in una griglia */
@@ -63,7 +37,7 @@ height: 40vh;
   height: 20vh;
   cursor: pointer; /* Cambia il cursore al passaggio del mouse */
   border-radius: 8px; /* Angoli arrotondati */
-  border-bottom: 1px groove black; /* Bordo opzionale */
+  border-bottom: 1px groove #E0E1DD; /* Bordo opzionale */
 }
 
 .imgpc {
@@ -71,7 +45,7 @@ height: 40vh;
   height: 15vh;
   cursor: pointer; /* Cambia il cursore al passaggio del mouse */
   border-radius: 8px; /* Angoli arrotondati */
-  border-bottom: 1px groove black; /* Bordo opzionale */
+  border-bottom: 1px groove #E0E1DD; /* Bordo opzionale */
 }
 
 .overlay-div {
@@ -86,9 +60,9 @@ height: 40vh;
   width: auto; /* Adatta la larghezza al contenuto */
   min-width: 30vw; /* Imposta una larghezza minima */
   max-width: 95%; /* Limita la larghezza massima */
-  background-color: #2b2f33;
+  background-color: #212c3a;
   color: white;
-  border: groove #feb3ff;
+  border: groove #E0E1DD;
   border-radius: 12px;
   box-shadow: 1px 2px 4px 2px #c7c7c7;
   display: inline-block; /* Cambia il comportamento per adattarsi meglio al contenuto */
@@ -112,10 +86,10 @@ height: 40vh;
 }
 
 .nav-link:hover{
-  color: white;
+  color: #415A77;
 }
 .nav-link{
-  color: black;
+  color: white;
 }
 
 .medaglia{
@@ -133,7 +107,7 @@ margin: 0 auto;
 }
 
 .item{
-border: 1px solid darkslateblue;
+border: 1px solid #E0E1DD;
 border-radius: 10px;
 padding: 15px;
 text-align: center; 
@@ -166,7 +140,7 @@ width: 10vw;
 }  
 
 .colpc{
-  background-color: rgb(190, 175, 154);
+  background-color: #778DA9;
   border-radius: 2vw;
   width: 30vw;
   border: groove;
@@ -174,10 +148,11 @@ width: 10vw;
 
 .btnlotta{
   border-color: grey;
+  background-color: #778DA9;
 }
 
 .colbox{
-  background-color: rgb(190, 175, 154);
+  background-color: #778DA9;
   border-radius: 2vw;
   border: groove;
 }
@@ -195,7 +170,7 @@ width: 10vw;
 
 @media (max-width: 900px) {
   .colpc{
-    background-color: rgb(190, 175, 154);
+    background-color: #778DA9;
     border-radius: 2vw;
     width: 20vh;
     border: groove;
@@ -229,7 +204,7 @@ width: 10vw;
   height: 10vh;
   cursor: pointer; /* Cambia il cursore al passaggio del mouse */
   border-radius: 8px; /* Angoli arrotondati */
-  border-bottom: 1px groove black; /* Bordo opzionale */
+  border-bottom: 1px groove #E0E1DD; /* Bordo opzionale */
 }
 
 #colquickmedaglie{
@@ -243,4 +218,12 @@ width: 10vw;
   margin-left: 2%;
   width: 10vw;
   }  
+}
+
+.navbar-toggler-icon {
+  filter: invert(94%) sepia(4%) saturate(165%) hue-rotate(37deg) brightness(96%) contrast(87%);
+}
+
+.navbar-toggler{
+  border: #E0E1DD solid 1px;
 }
