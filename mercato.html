@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon RPG - Homepage Personaggio</title>
+    <link rel="stylesheet" href="controlli.css">
+    <link rel="stylesheet" href="homepage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="character-homepage">
+        <nav class="pokemon-navbar">
+            <div class="navbar-container">
+                <!-- Logo -->
+                <div class="navbar-brand">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+                        alt="Logo" class="navbar-logo">
+                    <span>Pokémon RPG</span>
+                </div>
+
+                <!-- Hamburger Menu (mobile) -->
+                <button class="navbar-toggle" aria-label="Menu">
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                </button>
+
+                <!-- Menu Items -->
+                <div class="navbar-menu">
+                    <a href="/homepage.html" class="nav-link">Home</a>
+                    <a href="/pokemon.html" class="nav-link">Pokemon</a>
+                    <a href="/infermeria.html" class="nav-link">Infermeria</a>
+                    <a href="/mercato.html" class="nav-link">Mercato</a>
+                    <div class="nav-user">
+                        <span id="username-display"></span>
+                        <button class="logout-btn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <header class="homepage-header">
+            <h1>Mercato</h1>
+        </header>
+
+        
+        <div class="inventory-section" style="width: fit-content;">
+            <label class="paragrafosoldi">Soldi:</label><label class="paragrafosoldi2" id="soldimercato"> </label>
+        </div>
+
+        <div class="inventory-section">
+            <h2>Balls</h2>
+            <div class="inventory-grid" id="grigliainventario">
+                <div class="inventory-slot" onclick="acquistaoggetto(this,250)">
+                    <div class="item-icon">Poké Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽250</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,400)">
+                    <div class="item-icon">Great Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽400</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Ultra Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Net Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/net-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Dive Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dive-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Nest Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nest-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Repeat Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/repeat-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Timer Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/timer-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Luxury Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/luxury-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,10)">
+                    <div class="item-icon">Premier Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/premier-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽10</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Dusk Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dusk-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Heal Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/heal-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Quick Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/quick-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Cherish Ball</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cherish-ball.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+
+
+                <!-- ... altri slot ... -->
+            </div>
+        </div>
+
+        <div class="inventory-section">
+            <h2>Cure</h2>
+            <div class="inventory-grid" id="grigliainventario">
+                <div class="inventory-slot" onclick="acquistaoggetto(this,200)">
+                    <div class="item-icon">Pozione</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽200</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,380)">
+                    <div class="item-icon">Iperpozione</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hyper-potion.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽380</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,800)">
+                    <div class="item-icon">Superpozione</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/super-potion.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽800</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,1450)">
+                    <div class="item-icon">Ricarica totale</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/full-restore.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽1450</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,200)">
+                    <div class="item-icon">Antidoto</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/antidote.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽200</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,200)">
+                    <div class="item-icon">Antiscottatura</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/burn-heal.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽200</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,200)">
+                    <div class="item-icon">Sveglia</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/awakening.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽200</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,200)">
+                    <div class="item-icon">Antiparalisi</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/paralyze-heal.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽200</div>
+
+                </div>
+
+
+                <div class="inventory-slot" onclick="acquistaoggetto(this,450)">
+                    <div class="item-icon">Cura totale</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/full-heal.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽450</div>
+
+                </div>
+                <div class="inventory-slot" onclick="acquistaoggetto(this,300)">
+                    <div class="item-icon">Revitalizzante</div>
+                    <div class="item-name">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/revive.png"
+                            class="item-img">
+                    </div>
+                    <div class="item-quantity">₽300</div>
+
+                </div>
+
+                <!-- ... altri slot ... -->
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
+
+<script src="index.js">
+</script>
+<script>
+
+    (async function () {
+        if (!utenteloggato()) {
+            window.location.href = "/index.html";
+        }
+        await stampasoldi();
+
+    }
+    )();  // IIFE per gestire il flusso asincrono
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.querySelector('.navbar-toggle');
+        const menu = document.querySelector('.navbar-menu');
+
+        // Toggle mobile menu
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation(); // Previene la propagazione
+            this.classList.toggle('active');
+            menu.classList.toggle('active');
+        });
+
+        // Chiudi il menu cliccando altrove
+        document.addEventListener('click', function (e) {
+            if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+                toggle.classList.remove('active');
+                menu.classList.remove('active');
+            }
+        });
+
+        // Mostra username se loggato
+        const username = sessionStorage.getItem('username');
+        if (username) {
+            document.getElementById('username-display').textContent = username;
+        }
+
+        // Logout
+        const logoutBtn = document.querySelector('.logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function () {
+                sessionStorage.clear();
+                window.location.href = '/index.html';
+            });
+        }
+    });
+</script>

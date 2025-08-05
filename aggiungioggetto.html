@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserisci Dati Pokémon</title>
+</head>
+<body>
+    <h1>Inserisci i dati del Pokémon</h1>
+    <form id="pokemonForm">
+        <label for="nomep">Nome Oggetto:</label>
+        <input type="text" id="nomep" name="nomep"><br><br>
+
+                <label for="nomea">Immagine:</label>
+        <input type="text" id="immagine" name="nomea"><br><br>
+
+        <label for="nomea">Nome Allenatore:</label>
+        <input type="text" id="nomea" name="nomea"><br><br>
+
+        
+
+        <button type="button" onclick="additem()">Aggiungi item</button>
+    </form>
+
+
+
+<script src="index.js"></script>
+</body>
+</html>
+
+<script src="index.js">
+</script>
+<script>
+
+    (async function () {
+        if (!utenteloggato()) {
+            window.location.href = "/index.html";
+        }
+        //await stampaoggetti(); 
+    }
+    )();  // IIFE per gestire il flusso asincrono
+    
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.querySelector('.navbar-toggle');
+    const menu = document.querySelector('.navbar-menu');
+    
+    // Toggle mobile menu
+    toggle.addEventListener('click', function(e) {
+        e.stopPropagation(); // Previene la propagazione
+        this.classList.toggle('active');
+        menu.classList.toggle('active');
+    });
+
+    // Chiudi il menu cliccando altrove
+    document.addEventListener('click', function(e) {
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+            toggle.classList.remove('active');
+            menu.classList.remove('active');
+        }
+    });
+
+    // Mostra username se loggato
+    const username = sessionStorage.getItem('username');
+    if(username) {
+        document.getElementById('username-display').textContent = username;
+    }
+
+    // Logout
+    const logoutBtn = document.querySelector('.logout-btn');
+    if(logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            sessionStorage.clear();
+            window.location.href = '/login';
+        });
+    }
+});
+</script>

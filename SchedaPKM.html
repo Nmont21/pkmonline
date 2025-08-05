@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon RPG - Scheda Personaggio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="character-sheet">
+        <header class="sheet-header">
+            <h1>Pokémon RPG</h1>
+            <div class="type-badges" id="typeBadges">
+                <!-- Filled by JavaScript -->
+            </div>
+        </header>
+
+        <div class="pokemon-info-section">
+           
+                <div class="info-group">
+                    <label for="pokemonName">Nome Allenatore</label>
+                    <input type="text" id="nomea" class="input-field" placeholder="">
+                    <label for="pokemonName">Nome Pokémon</label>
+                    <input type="text" id="nomep" class="input-field" placeholder="">
+                </div>
+
+                <div class="info-row">
+                    <div class="info-group">
+                        <label for="pokemonTypes">Tipi</label>
+                        <input type="text" id="tipo1"><input type="text" id="tipo2">
+                    </div>
+                    <div class="info-group">
+                        <label for="level">Livello</label>
+                        <input type="text" id="level" class="input-field small" value="5" min="1" max="100">
+                    </div>
+
+                    <div class="info-group">
+                        <label for="experience">ESP</label>
+                        <input type="text" id="esperienza" class="input-field small" value="0" min="0">
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-group">
+                        <label for="gender">Sesso</label>
+                        <input type="text" id="sesso">
+                    </div>
+
+                    <div class="info-group">
+                        <label for="nature">Natura</label>
+                        <input type="text" id="natura">
+                    </div>
+                </div>
+
+                <div class="info-group">
+                    <label for="ability">Abilità</label>
+                    <input type="text" id="abilita">
+                </div>
+                                <div class="info-group">
+                    <label for="ability">INFO Abilità</label>
+                    <input type="text" id="infoabilita">
+                </div>
+            </div>
+
+            <div class="pokemon-image">
+                <div class="image-placeholder">
+                    <span>Carica immagine</span>
+                    <input type="text" id="pokemonImage">
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>Statistiche di Combattimento</h2>
+
+            <div class="hp-container">
+                <div class="hp-separator">/</div>
+                <div class="info-group">
+                    <label for="maxHP">HP Massimi</label>
+                    <input type="text" id="maxHP" class="input-field" value="20" readonly>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <label for="hp">HP</label>
+                    <input type="text" id="hp" class="stat-input" value="20">
+                </div>
+                <div class="stat-item">
+                    <label for="atk">ATK</label>
+                    <input type="text" id="attacco" class="stat-input" value="10">
+                </div>
+                <div class="stat-item">
+                    <label for="def">DEF</label>
+                    <input type="text" id="difesa" class="stat-input" value="10">
+                </div>
+                <div class="stat-item">
+                    <label for="spatk">SP.ATK</label>
+                    <input type="text" id="attas" class="stat-input" value="10">
+                </div>
+                <div class="stat-item">
+                    <label for="spdef">SP.DEF</label>
+                    <input type="text" id="difes" class="stat-input" value="10">
+                </div>
+                <div class="stat-item">
+                    <label for="speed">VELOCITÀ</label>
+                    <input type="text" id="vel" class="stat-input" value="10">
+                </div>
+                <div class="stat-item">
+                    <label for="physEvade">FIS. EVADE</label>
+                    <input type="text" id="physEvade" class="stat-input" value="1">
+                </div>
+                <div class="stat-item">
+                    <label for="specEvade">SPEC. EVADE</label>
+                    <input type="text" id="specEvade" class="stat-input" value="1">
+                </div>
+                <div class="stat-item">
+                    <label for="speedEvade">VEL. EVADE</label>
+                    <input type="text" id="speedEvade" class="stat-input" value="1">
+                </div>
+            </div>
+
+
+    <script src="index.js"></script>
+        <div class="sheet-footer">
+            <button class="save-btn" onclick="addpokemon()">Salva Scheda</button>
+            <button class="reset-btn">Resetta</button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon RPG - Scheda Personaggio</title>
+    <link rel="stylesheet" href="controlli.css">
+    <link rel="stylesheet" href="homepage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="pokemon-navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <div class="navbar-brand">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+                    alt="Logo" class="navbar-logo">
+                <span>Pokémon RPG</span>
+            </div>
+
+            <!-- Hamburger Menu (mobile) -->
+            <button class="navbar-toggle" aria-label="Menu">
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+                <span class="toggle-bar"></span>
+            </button>
+
+            <!-- Menu Items -->
+            <div class="navbar-menu">
+                <a href="/homepage.html" class="nav-link">Home</a>
+                <a href="/pokemon.html" class="nav-link">Pokemon</a>
+                <a href="/infermeria.html" class="nav-link">Infermeria</a>
+                <a href="/mercato.html" class="nav-link">Mercato</a>
+                <div class="nav-user">
+                    <span id="username-display"></span>
+                    <button class="logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+
+        <div class="character-sheet">
+
+            <header class="sheet-header">
+                <h1>Scheda Pokemon</h1>
+                <div class="type-badges" id="grigliatipi">
+
+                </div>
+            </header>
+
+            <div class="pokemon-info-section" id="pokemoninfosection">
+
+                <div class="pokemon-basic-info">
+                    <div class="info-group">
+                        <h3>Nome Pokémon</h3>
+                        <div class="read-only-value" id="nome">Magneton</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-group">
+                            <h3>Livello</h3>
+                            <div class="read-only-value" id="livello">32</div>
+                        </div>
+
+                        <div class="info-group">
+                            <h3>ESP</h3>
+                            <div class="read-only-value" id="esperienza">12,540</div>
+                        </div>
+
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-group">
+                            <h3>Sesso</h3>
+                            <div class="read-only-value" id="sesso">Nessuno</div>
+                        </div>
+
+                        <div class="info-group">
+                            <h3>Natura</h3>
+                            <div class="read-only-value" id="natura">Modesta</div>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <h3 style="cursor: pointer;" onclick="popinfoabilita()">Abilità 🛈</h3>
+                        <div class="read-only-value" id="abilita">Corpodifluido</div>
+                    </div>
+                </div>
+
+                <div class="pokemon-image">
+                    <img src=""
+                        id="sprite" class="pokemon-img">
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h2>Statistiche di Combattimento</h2>
+
+                <div class="hp-container">
+                    <div class="info-group">
+                        <h3>Hit Point Attuali</h3>
+                        <div class="read-only-value hp-value" id="hpnow"></div>
+                    </div>
+                    <div class="hp-separator">/</div>
+                    <div class="info-group">
+                        <h3>Hit Point Massimi</h3>
+                        <div class="read-only-value" id="hpmax"></div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>HP</h3>
+                        <div class="read-only-value" id="hp"></div>
+                    </div>
+                    <div class="stat-item">
+                        <h3>ATK</h3>
+                        <div class="read-only-value" id="atk"></div>
+                    </div>
+                    <div class="stat-item">
+                        <h3>DEF</h3>
+                        <div class="read-only-value" id="def"></div>
+                    </div>
+                    <div class="stat-item">
+                        <h3>SP.ATK</h3>
+                        <div class="read-only-value" id="satk"></div>
+                    </div>
+                    <div class="stat-item">
+                        <h3>SP.DEF</h3>
+                        <div class="read-only-value" id="sdef"></div>
+                    </div>
+                    <div class="stat-item">
+                        <h3>VELOCITÀ</h3>
+                        <div class="read-only-value" id="vel"></div>
+                    </div>
+                    <div class="stat-item">
+                        <h3>FIS. EVADE</h3>
+                        <div class="read-only-value" id="fev"></div>
+                    </div>
+                    <div class="stat-item">
+                        <h3>SPEC. EVADE</h3>
+                        <div class="read-only-value" id="sev"></div>
+                    </div>
+                    <div class="stat-item">
+                        <h3>VEL. EVADE</h3>
+                        <div class="read-only-value" id="vev"></div>
+                    </div>
+                </div>
+
+                <div class="info-group">
+                    <h3>Infortuni</h3>
+                    <div class="read-only-value injuries-text" id="infortuni">Scarica bruciatura sul braccio sinistro
+                    </div>
+                </div>
+            </div>
+
+            <div class="moves-section">
+                <h2>Mosse</h2>
+
+                <div class="moves-grid" id="grigliamosse">
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="controls-sidebar">
+            <h2 class="sidebar-title">Controlli</h2>
+
+            <div class="control-section">
+                <h3 class="control-title">Gestione Hit Point</h3>
+                <div class="hp-controls">
+                    <div class="value-control">
+                        <button class="control-btn minus-btn" onclick="modificahp(-1)">−1</button>
+                        <button class="control-btn plus-btn" onclick="modificahp(1)">+1</button>
+                        <button class="control-btn minus-btn" onclick="modificahp(-5)">−5</button>
+                        <button class="control-btn plus-btn" onclick="modificahp(5)">+5</button>
+                        <button class="control-btn minus-btn" onclick="modificahp(-10)">−10</button>
+                        <button class="control-btn plus-btn" onclick="modificahp(10)">+10</button>
+                        <button class="control-btn minus-btn" onclick="modificahp(-20)">−20</button>
+                        <button class="control-btn plus-btn" onclick="modificahp(20)">+20</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="control-section">
+                <h3 class="control-title" id="infostato" onclick="popinfostato()">Condizioni di Stato 🛈</h3>
+                <div class="status-grid">
+                    <label class="status-toggle">
+                        <input type="checkbox" id="Confuso" hidden  onchange="modificastato('Confuso')">
+                        <span class="status-label type-null" id="labelConfuso">Confuso</span>
+                    </label>
+                    <label class="status-toggle">
+                        <input type="checkbox" id="Paralizzato" hidden  onchange="modificastato('Paralizzato')">
+                        <span class="status-label type-null" id="labelParalizzato">Paralizzato</span>
+                    </label>
+                    <label class="status-toggle">
+                        <input type="checkbox" id="Scottato" hidden  onchange="modificastato('Scottato')">
+                        <span class="status-label type-null" id="labelScottato">Scottato</span>
+                    </label>
+                    <label class="status-toggle">
+                        <input type="checkbox" id="Avvelenato" hidden  onchange="modificastato('Avvelenato')">
+                        <span class="status-label type-null" id="labelAvvelenato">Avvelenato</span>
+                    </label>
+                    <label class="status-toggle">
+                        <input type="checkbox" id="Addormentato" hidden onchange="modificastato('Addormentato')">
+                        <span class="status-label type-null" id="labelAddormentato">Addormentato</span>
+                    </label>
+                    <label class="status-toggle">
+                        <input type="checkbox" id="Congelato" hidden onchange="modificastato('Congelato')">
+                        <span class="status-label type-null" id="labelCongelato">Congelato</span>
+                    </label>
+                </div>
+            </div>
+            <div class="control-section">
+                <h3 class="control-title">Combat Stage</h3>
+                <div class="combat-stage-container">
+                    <!-- Attack -->
+                    <div class="combat-stage-group">
+                        <span class="combat-stage-label">Attacco</span>
+                        <select class="combat-stage-select" id="combat-stage-atk">
+                            <option value="-6" class="combat-stage-neg">-6</option>
+                            <option value="-5" class="combat-stage-neg">-5</option>
+                            <option value="-4" class="combat-stage-neg">-4</option>
+                            <option value="-3" class="combat-stage-neg">-3</option>
+                            <option value="-2" class="combat-stage-neg">-2</option>
+                            <option value="-1" class="combat-stage-neg">-1</option>
+                            <option value="0" selected class="combat-stage-zero">0</option>
+                            <option value="+1" class="combat-stage-pos">+1</option>
+                            <option value="+2" class="combat-stage-pos">+2</option>
+                            <option value="+3" class="combat-stage-pos">+3</option>
+                            <option value="+4" class="combat-stage-pos">+4</option>
+                            <option value="+5" class="combat-stage-pos">+5</option>
+                            <option value="+6" class="combat-stage-pos">+6</option>
+                        </select>
+                    </div>
+
+                    <!-- Defense -->
+                    <div class="combat-stage-group">
+                        <span class="combat-stage-label">Difesa</span>
+                        <select class="combat-stage-select" id="combat-stage-def">
+                            <option value="-6" class="combat-stage-neg">-6</option>
+                            <option value="-5" class="combat-stage-neg">-5</option>
+                            <option value="-4" class="combat-stage-neg">-4</option>
+                            <option value="-3" class="combat-stage-neg">-3</option>
+                            <option value="-2" class="combat-stage-neg">-2</option>
+                            <option value="-1" class="combat-stage-neg">-1</option>
+                            <option value="0" selected class="combat-stage-zero">0</option>
+                            <option value="+1" class="combat-stage-pos">+1</option>
+                            <option value="+2" class="combat-stage-pos">+2</option>
+                            <option value="+3" class="combat-stage-pos">+3</option>
+                            <option value="+4" class="combat-stage-pos">+4</option>
+                            <option value="+5" class="combat-stage-pos">+5</option>
+                            <option value="+6" class="combat-stage-pos">+6</option>
+                        </select>
+                    </div>
+
+                    <!-- Special Attack -->
+                    <div class="combat-stage-group">
+                        <span class="combat-stage-label">Att. Sp.</span>
+                        <select class="combat-stage-select" id="combat-stage-spatk">
+                            <option value="-6" class="combat-stage-neg">-6</option>
+                            <option value="-5" class="combat-stage-neg">-5</option>
+                            <option value="-4" class="combat-stage-neg">-4</option>
+                            <option value="-3" class="combat-stage-neg">-3</option>
+                            <option value="-2" class="combat-stage-neg">-2</option>
+                            <option value="-1" class="combat-stage-neg">-1</option>
+                            <option value="0" selected class="combat-stage-zero">0</option>
+                            <option value="+1" class="combat-stage-pos">+1</option>
+                            <option value="+2" class="combat-stage-pos">+2</option>
+                            <option value="+3" class="combat-stage-pos">+3</option>
+                            <option value="+4" class="combat-stage-pos">+4</option>
+                            <option value="+5" class="combat-stage-pos">+5</option>
+                            <option value="+6" class="combat-stage-pos">+6</option>
+                        </select>
+                    </div>
+
+                    <!-- Special Defense -->
+                    <div class="combat-stage-group">
+                        <span class="combat-stage-label">Dif. Sp.</span>
+                        <select class="combat-stage-select" id="combat-stage-spdef">
+                            <option value="-6" class="combat-stage-neg">-6</option>
+                            <option value="-5" class="combat-stage-neg">-5</option>
+                            <option value="-4" class="combat-stage-neg">-4</option>
+                            <option value="-3" class="combat-stage-neg">-3</option>
+                            <option value="-2" class="combat-stage-neg">-2</option>
+                            <option value="-1" class="combat-stage-neg">-1</option>
+                            <option value="0" selected class="combat-stage-zero">0</option>
+                            <option value="+1" class="combat-stage-pos">+1</option>
+                            <option value="+2" class="combat-stage-pos">+2</option>
+                            <option value="+3" class="combat-stage-pos">+3</option>
+                            <option value="+4" class="combat-stage-pos">+4</option>
+                            <option value="+5" class="combat-stage-pos">+5</option>
+                            <option value="+6" class="combat-stage-pos">+6</option>
+                        </select>
+                    </div>
+
+                    <!-- Speed -->
+                    <div class="combat-stage-group">
+                        <span class="combat-stage-label">Velocità</span>
+                        <select class="combat-stage-select" id="combat-stage-speed">
+                            <option value="-6" class="combat-stage-neg">-6</option>
+                            <option value="-5" class="combat-stage-neg">-5</option>
+                            <option value="-4" class="combat-stage-neg">-4</option>
+                            <option value="-3" class="combat-stage-neg">-3</option>
+                            <option value="-2" class="combat-stage-neg">-2</option>
+                            <option value="-1" class="combat-stage-neg">-1</option>
+                            <option value="0" selected class="combat-stage-zero">0</option>
+                            <option value="+1" class="combat-stage-pos">+1</option>
+                            <option value="+2" class="combat-stage-pos">+2</option>
+                            <option value="+3" class="combat-stage-pos">+3</option>
+                            <option value="+4" class="combat-stage-pos">+4</option>
+                            <option value="+5" class="combat-stage-pos">+5</option>
+                            <option value="+6" class="combat-stage-pos">+6</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="control-section">
+                <h3 class="control-title">Gestione Infortuni</h3>
+                <div class="injuries-control">
+                    <div class="injuries-btns">
+                        <button class="control-btn add-injury"  onclick="modificainfortuni(1)">Aggiungi infortunio</button>
+                        <button class="control-btn clear-injuries" onclick="modificainfortuni(-1)">Guarisci infortunio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script src="index.js">
+</script>
+<script>
+
+    (async function () {
+        if (!utenteloggato()) {
+            window.location.href = "/index.html";
+        }
+        stampapokemon();
+        stampastati();
+        stampamosse();
+    }
+    )();  // IIFE per gestire il flusso asincrono
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.querySelector('.navbar-toggle');
+        const menu = document.querySelector('.navbar-menu');
+
+        // Toggle mobile menu
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation(); // Previene la propagazione
+            this.classList.toggle('active');
+            menu.classList.toggle('active');
+        });
+
+        // Chiudi il menu cliccando altrove
+        document.addEventListener('click', function (e) {
+            if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+                toggle.classList.remove('active');
+                menu.classList.remove('active');
+            }
+        });
+
+        // Mostra username se loggato
+        const username = sessionStorage.getItem('username');
+        if (username) {
+            document.getElementById('username-display').textContent = username;
+        }
+
+        // Logout
+        const logoutBtn = document.querySelector('.logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function () {
+                sessionStorage.clear();
+                window.location.href = '/index.html';
+            });
+        }
+    });
+</script>

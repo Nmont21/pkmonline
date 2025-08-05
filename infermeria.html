@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon RPG - Homepage Personaggio</title>
+    <link rel="stylesheet" href="controlli.css">
+    <link rel="stylesheet" href="homepage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="character-homepage">
+        <nav class="pokemon-navbar">
+            <div class="navbar-container">
+                <!-- Logo -->
+                <div class="navbar-brand">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+                        alt="Logo" class="navbar-logo">
+                    <span>Pokémon RPG</span>
+                </div>
+
+                <!-- Hamburger Menu (mobile) -->
+                <button class="navbar-toggle" aria-label="Menu">
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                </button>
+
+                <!-- Menu Items -->
+                <div class="navbar-menu">
+                    <a href="/homepage.html" class="nav-link">Home</a>
+                    <a href="/pokemon.html" class="nav-link">Pokemon</a>
+                    <a href="/infermeria.html" class="nav-link">Infermeria</a>
+                    <a href="/mercato.html" class="nav-link">Mercato</a>
+                    <div class="nav-user">
+                        <span id="username-display"></span>
+                        <button class="logout-btn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <header class="homepage-header">
+            <h1>Infermeria</h1>
+        </header>
+        <div class="team-section">
+            <center><button type="button" onclick="curateam()">Cura Team</button></center>
+        </div>
+        <div class="team-section">
+            
+            <h2>Squadra</h2>
+            <div class="team-grid" id="grigliateam">
+
+            </div>
+
+        </div>
+        <div class="team-section">
+            <h2>Box</h2>
+            <div class="team-grid" id="grigliateambox">
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script src="index.js">
+</script>
+<script>
+
+    (async function () {
+        if (!utenteloggato()) {
+            window.location.href = "/index.html";
+        }
+        await stampabox();
+        await stampadeposita();
+    }
+    )();  // IIFE per gestire il flusso asincrono
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.querySelector('.navbar-toggle');
+        const menu = document.querySelector('.navbar-menu');
+
+        // Toggle mobile menu
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation(); // Previene la propagazione
+            this.classList.toggle('active');
+            menu.classList.toggle('active');
+        });
+
+        // Chiudi il menu cliccando altrove
+        document.addEventListener('click', function (e) {
+            if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+                toggle.classList.remove('active');
+                menu.classList.remove('active');
+            }
+        });
+
+        // Mostra username se loggato
+        const username = sessionStorage.getItem('username');
+        if (username) {
+            document.getElementById('username-display').textContent = username;
+        }
+
+        // Logout
+        const logoutBtn = document.querySelector('.logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function () {
+                sessionStorage.clear();
+                window.location.href = '/index.html';
+            });
+        }
+    });
+</script>
