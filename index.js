@@ -372,7 +372,7 @@ async function addpokemon() {
     var evaf = document.getElementById('physEvade').value;
     var evas = document.getElementById('specEvade').value;
     var evav = document.getElementById('speedEvade').value;
-    var infoabilita=document.getElementById('infoabilita').value;
+    var infoabilit=document.getElementById('infoabilita').value;
     var infort = '0';
     var userData = {
         nome: nomep,
@@ -392,7 +392,7 @@ async function addpokemon() {
         mosse: [],
         natura: natura,
         abilita: abilita,
-        infoabilita: infoabilita,
+        infoabilita: infoabilit,
         puntivita: pv,
         hpmax: hitpointmax,
         evafisica: evaf,
@@ -446,6 +446,7 @@ app.post('/addpokemon', async (req, res) => {
             sesso: req.body.sex,
             natura: req.body.natura,
             abilita: req.body.abilita,
+            infoabilita: req.body.infoabilita,
             mosse: [],
             hp: req.body.puntivita,
             pvmax: req.body.puntivita,
@@ -1329,13 +1330,14 @@ function stampamosse() {
     const mosse = JSON.parse(sessionStorage.getItem('pokemon')).mosse;
     const tipo1 = JSON.parse(sessionStorage.getItem('pokemon')).tipi[0];
     const tipo2 = JSON.parse(sessionStorage.getItem('pokemon')).tipi[1];
+    console.log(mosse);
 
     const container = document.getElementById('grigliamosse');
 
     mosse.forEach(element => {
         var damagebase;
-        if (element.tipo == tipo1 || element.tipo == tipo1)
-            damagebase = stampadadomossa(parseInt(element.danno) + 2)
+        if (element.tipo == tipo1 || element.tipo == tipo2)
+            damagebase = stampadadomossa(parseInt(element.danno) + 2);
         else
             damagebase = stampadadomossa(parseInt(element.danno))
         var mossa = document.createElement('div');
