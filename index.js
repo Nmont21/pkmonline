@@ -144,7 +144,7 @@ app.post('/getuserdata', async (req, res) => {
     try {
         const email = req.body.email;  // Ottieni l'email dalla query string
         if (!email) {
-            return res.status(400).json('Email non fornita');
+            return res.status(400).json('Email non fornita acnan');
         }
 
         const collection = db.collection('utenti');
@@ -499,7 +499,7 @@ app.post('/getuserpkmn', async (req, res) => {
     try {
         const email = req.body.email;  // Ottieni l'email dalla query string
         if (!email) {
-            return res.status(400).json('Email non fornita');
+            return res.status(400).json('Email non fornita iuuu');
         }
 
         const collection = db.collection('pokemon');
@@ -1481,23 +1481,10 @@ app.post('/prelevapokemon', async (req, res) => {
 async function aggiungimossa() {
     var idpokemon = document.getElementById('idpokemon').value;
     var imossa = document.getElementById('nomemossa').value;
-    var ifrequenza = document.getElementById('freq').value;
-    var iac = document.getElementById('ac').value;
-    var idanno = document.getElementById('danno').value;
-    var iclasse = document.getElementById('classe').value;
-    var irange = document.getElementById('range').value;
-    var itipo = document.getElementById('tipo').value;
-    var iinformazioni = document.getElementById('informazioni').value;
+
     var userData = {
         id: idpokemon,
-        mossa: imossa,
-        frequenza: ifrequenza,
-        ac: iac,
-        danno: idanno,
-        classe: iclasse,
-        range: irange,
-        tipo: itipo,
-        informazioni: iinformazioni
+        mossa: imossa
     }
 
     try {
@@ -1535,16 +1522,7 @@ app.post('/aggiungimossa', async (req, res) => {
         }
             , {
                 $push: {
-                    mosse: {
-                        mossa: req.body.mossa,
-                        frequenza: req.body.frequenza,
-                        ac: req.body.ac,
-                        danno: req.body.danno,
-                        classe: req.body.classe,
-                        range: req.body.range,
-                        tipo: req.body.tipo,
-                        informazioni: req.body.informazioni
-                    }
+                    mosse: req.body.mossa                    
                 }
             });
         res.status(201).json(result);
@@ -1554,59 +1532,188 @@ app.post('/aggiungimossa', async (req, res) => {
     }
 });
 
-function stampamosse() {
-    const mosse = JSON.parse(sessionStorage.getItem('pokemon')).mosse;
-    const tipo1 = JSON.parse(sessionStorage.getItem('pokemon')).tipi[0];
-    const tipo2 = JSON.parse(sessionStorage.getItem('pokemon')).tipi[1];
+async function caricamossa() {
+    var imossa = document.getElementById('nomemossa').value;
+    var ifrequenza = document.getElementById('freq').value + ' '+ document.getElementById('quantita').value;;
+    var iac = document.getElementById('ac').value;
+    var idanno = document.getElementById('danno').value;
+    var iclasse = document.getElementById('classe').value ;
+    var irange = document.getElementById('range').value;
+    var itipo = document.getElementById('tipo').value;
+    var iinformazioni = document.getElementById('informazioni').value;
+    var userData = {
+        mossa: imossa,
+        frequenza: ifrequenza,
+        ac: iac,
+        danno: idanno,
+        classe: iclasse,
+        range: irange,
+        tipo: itipo,
+        informazioni: iinformazioni
+    }
+
+    try {
+        const response = await fetch('/caricamossa', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            alert('Mossa aggiunto con successo');
+        } else {
+            const error = await response.text();
+            alert('Errore: ' + error);
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        alert('Errore nella richiesta');
+    }
+};
+
+app.post('/caricamossa', async (req, res) => {
+
+    try {
+        const collection = db.collection('mosse');
+
+        // Creazione del nuovo utente
+        const aggiunta={
+                
+                        mossa: req.body.mossa,
+                        frequenza: req.body.frequenza,
+                        ac: req.body.ac,
+                        danno: req.body.danno,
+                        classe: req.body.classe,
+                        range: req.body.range,
+                        tipo: req.body.tipo,
+                        informazioni: req.body.informazioni
+                    
+                }
+
+        const result = await collection.insertOne(aggiunta);
+        res.status(201).json(result);
+    } catch (err) {
+        console.error('Errore nella creazione dell\'utente', err);
+        res.status(500).send('Errore nella creazione dell\'utente');
+    }
+});
+
+async function getmossa(nomemossa) {
+    var userData = {
+        mossa: nomemossa
+    }
+    try {
+        // Costruisci l'URL con la query string
+        const response = await fetch('/getmossa', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            return result;
+        } else {
+            const error = await response.text();
+            alert('Errore: ' + error);
+        }
+    } catch (error) {
+        console.error('Errore nella richiesta:', error);
+        alert('Errore nella richiesta');
+    }
+}
+
+
+app.post('/getmossa', async (req, res) => {
+    try {
+        const email = req.body.mossa;
+    
+         // Ottieni l'email dalla query string
+        if (!email) {
+            return res.status(400).json('Email non fornitarinorino');
+        }
+
+        const collection = db.collection('mosse');
+        const presente = await collection.find({ mossa: email }).toArray();
+
+
+        if (presente) {
+            return res.status(200).json(presente);  // 200 significa "successo"
+        } else {
+            return res.status(404).json('Utente non trovato');  // Usa 404 per "non trovato"
+        }
+
+    } catch (err) {
+        console.error('Errore', err);
+        res.status(500).send('Errore del server');
+    }
+});
+
+async function stampamosse() {
+    const poke = JSON.parse(sessionStorage.getItem('pokemon'));
+    const mosse = poke.mosse;
+    const tipo1 = poke.tipi[0];
+    const tipo2 = poke.tipi[1];
+
     console.log(mosse);
 
     const container = document.getElementById('grigliamosse');
+    container.innerHTML = ""; // pulizia prima di stampare
 
-    mosse.forEach(element => {
-        var damagebase;
-        if (element.tipo == tipo1 || element.tipo == tipo2)
+    for (const mossa of mosse) {
+        
+        const elemento = await getmossa(mossa);
+        const element=elemento[0];
+
+        let damagebase;
+        if (element.tipo === tipo1 || element.tipo === tipo2)
             damagebase = stampadadomossa(parseInt(element.danno) + 2);
         else
-            damagebase = stampadadomossa(parseInt(element.danno))
-        var mossa = document.createElement('div');
-        mossa.className = "move-card";
-        mossa.innerHTML = ` 
-                        <div class="move-header">
-                            <h3 class="move-name">${element.mossa}</h3>
-                            <span class="move-type ${supportoclasse(element.tipo)}">${element.tipo}</span>
-                        </div>
-                        <div class="move-details">
-                            <div class="move-detail">
-                                <h4>Freq.</h4>
-                                <div class="read-only-value">${element.frequenza}</div>
-                            </div>
-                            <div class="move-detail">
-                                <h4>AC</h4>
-                                <div class="read-only-value">${element.ac}</div>
-                            </div>
-                            <div class="move-detail">
-                                <h4>Danno</h4>
-                                <div class="read-only-value">${damagebase}</div>
-                            </div>
-                            <div class="move-detail">
-                                <h4>Classe</h4>
-                                <div class="read-only-value">${element.classe}</div>
-                            </div>
-                            <div class="move-detail">
-                                <h4>Range</h4>
-                                <div class="read-only-value">${element.range}</div>
-                            </div>
-                        </div>
-                        <div class="move-effect">
-                            <div class="read-only-value">${element.informazioni}</div>
-                        </div>
-                    
-        `
-        container.appendChild(mossa);
-    }
+            damagebase = stampadadomossa(parseInt(element.danno));
 
-    );
+        const card = document.createElement('div');
+        card.className = "move-card";
+        card.innerHTML = ` 
+            <div class="move-header">
+                <h3 class="move-name">${element.mossa}</h3>
+                <span class="move-type ${supportoclasse(element.tipo)}">${element.tipo}</span>
+            </div>
+            <div class="move-details">
+                <div class="move-detail">
+                    <h4>Freq.</h4>
+                    <div class="read-only-value">${element.frequenza}</div>
+                </div>
+                <div class="move-detail">
+                    <h4>AC</h4>
+                    <div class="read-only-value">${element.ac}</div>
+                </div>
+                <div class="move-detail">
+                    <h4>Danno</h4>
+                    <div class="read-only-value">${damagebase}</div>
+                </div>
+                <div class="move-detail">
+                    <h4>Classe</h4>
+                    <div class="read-only-value">${element.classe}</div>
+                </div>
+                <div class="move-detail">
+                    <h4>Range</h4>
+                    <div class="read-only-value">${element.range}</div>
+                </div>
+            </div>
+            <div class="move-detail">
+            <h4>Informazioni</h4>
+                <div class="read-only-value">${element.informazioni}</div>
+            </div>`;
+        
+        container.appendChild(card);
+    }
 }
+
 
 function stampadadomossa(damagebase) {
     if (damagebase == 1)

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+        <link rel="stylesheet" href="controlli.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon RPG - Scheda Personaggio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="character-sheet" style="width: 70%; margin-left: 10%;" >
+        <header class="sheet-header">
+            <h1>Pokémon RPG</h1>
+            <div class="type-badges" id="typeBadges">
+                <!-- Filled by JavaScript -->
+            </div>
+        </header>
+
+        <div  >
+           
+                <div class="info-group">
+                    <label for="pokemonName">Nome Mossa</label>
+                    <input type="text" id="nomemossa" class="input-field" placeholder="">
+                </div>
+
+                
+                    <div class="info-group">
+                        <label for="pokemonTypes">Tipi</label>
+                        <select id="tipo">
+                            <option value="Normale">Normale</option>
+                                <option value="Fuoco">Fuoco</option>
+                                <option value="Acqua">Acqua</option>
+                                <option value="Erba">Erba</option>
+                                <option value="Elettro">Elettro</option>
+                                <option value="Ghiaccio">Ghiaccio</option>
+                                <option value="Lotta">Lotta</option>
+                                <option value="Veleno">Veleno</option>
+                                <option value="Terra">Terra</option>
+                                <option value="Volante">Volante</option>
+                                <option value="Psico">Psico</option>
+                                <option value="Coleottero">Coleottero</option>
+                                <option value="Roccia">Roccia</option>
+                                <option value="Spettro">Spettro</option>
+                                <option value="Drago">Drago</option>
+                                <option value="Buio">Buio</option>
+                                <option value="Acciaio">Acciaio</option>
+                                <option value="Folletto">Folletto</option>
+                        </select>
+
+                    </div>
+                    <div class="info-group">
+                        <label for="level">Classe</label>
+                        <select id="classe" class="input-field small">
+                            <option value="Physical">Physical</option>
+                            <option value="Special">Special</option>
+                            <option value="Status">Status</option>
+                        </select>
+                    </div>
+
+                    <div class="info-group">
+                        <label for="experience">Danno</label>
+                        <input type="text" id="danno" class="input-field small">
+                    </div>
+                
+
+                
+                    <div class="info-group" >
+                        <label for="gender">Frequenza</label>
+                        <select id="freq">
+                            <option value="At-Will">At-Will</option>
+                            <option value="EOT">EOT</option>
+                            <option value="Scene">Scene</option>
+                            <option value="Daily">Daily</option>
+                            <option value="Static">Static</option>
+                        </select>
+                        <input type="text" id="quantita">
+                    </div>
+
+                    <div class="info-group">
+                        <label for="nature">Range</label>
+                        <input type="text" id="range">
+                    </div>
+                
+
+                <div class="info-group">
+                    <label for="ability">AC</label>
+                    <input type="text" id="ac">
+                </div>
+                 <div class="info-group">
+                    <label for="ability">INFO</label>
+                    <input type="text" id="informazioni">
+                </div>
+            </div>
+            <button onclick="caricamossa()">Inserisci</button>
+
+
+        </div>
+
+
+    <script src="index.js"></script>
+
+
+ 
+</body>
+
+</html>
