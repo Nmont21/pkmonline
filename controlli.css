@@ -506,6 +506,14 @@ button {
     flex: 1;
 }
 
+.combat-stage-select{
+    cursor: pointer;
+}
+.combat-stage-select:hover{
+    border-color: white;
+   
+}
+
 /* Type colors */
 .type-normal {
     background-color: var(--type-normal);

@@ -30,7 +30,7 @@
 
             <!-- Menu Items -->
             <div class="navbar-menu">
-                <a href="/homepage.html" class="nav-link">Home</a>
+                <a href="/admin.html" class="nav-link">Home</a>
                 <a href="/pokemon.html" class="nav-link">Pokemon</a>
                 <a href="/infermeria.html" class="nav-link">Infermeria</a>
                 <a href="/mercato.html" class="nav-link">Mercato</a>
@@ -89,6 +89,11 @@
                         <h3 style="cursor: pointer;" onclick="popinfoabilita()">Abilità 🛈</h3>
                         <div class="read-only-value" id="abilita">Corpodifluido</div>
                     </div>
+                    <div class="info-group">
+                        <h3 style="cursor: pointer;">Livello</h3>
+                        <input type="number" class="read-only-value" id="livelloselvatico">
+                        <button onclick="ricalcolaselvatico()" >Esegui</button>
+                    </div>
                 </div>
 
                 <div class="pokemon-image">
@@ -103,57 +108,57 @@
                 <div class="hp-container">
                     <div class="info-group">
                         <h3>Hit Point Attuali</h3>
-                        <div class="read-only-value hp-value" id="hpnow"></div>
+                        <input type='text' class="read-only-value hp-value" id="hpnow">
                     </div>
                     <div class="hp-separator">/</div>
                     <div class="info-group">
                         <h3>Hit Point Massimi</h3>
-                        <div class="read-only-value" id="hpmax"></div>
+                        <input type='text' class="read-only-value" id="hpmax">
                     </div>
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-item">
                         <h3>HP</h3>
-                        <div class="read-only-value" id="hp"></div>
+                        <input type='text' class="read-only-value" id="hp">
                     </div>
                     <div class="stat-item">
                         <h3>ATK</h3>
-                        <div class="read-only-value" id="atk"></div>
+                        <input type='text' class="read-only-value" id="atk">
                     </div>
                     <div class="stat-item">
                         <h3>DEF</h3>
-                        <div class="read-only-value" id="def"></div>
+                        <input type='text' class="read-only-value" id="def">
                     </div>
                     <div class="stat-item">
                         <h3>SP.ATK</h3>
-                        <div class="read-only-value" id="satk"></div>
+                        <input type='text' class="read-only-value" id="satk">
                     </div>
                     <div class="stat-item">
                         <h3>SP.DEF</h3>
-                        <div class="read-only-value" id="sdef"></div>
+                        <input type='text' class="read-only-value" id="sdef">
                     </div>
                     <div class="stat-item">
                         <h3>VELOCITÀ</h3>
-                        <div class="read-only-value" id="vel"></div>
+                        <input type='text' class="read-only-value" id="vel">
                     </div>
                     <div class="stat-item">
                         <h3>FIS. EVADE</h3>
-                        <div class="read-only-value" id="fev"></div>
+                        <input type='text' class="read-only-value" id="fev">
                     </div>
                     <div class="stat-item">
                         <h3>SPEC. EVADE</h3>
-                        <div class="read-only-value" id="sev"></div>
+                        <input type='text' class="read-only-value" id="sev">
                     </div>
                     <div class="stat-item">
                         <h3>VEL. EVADE</h3>
-                        <div class="read-only-value" id="vev"></div>
+                        <input type='text' class="read-only-value" id="vev">
                     </div>
                 </div>
 
                 <div class="info-group">
                     <h3>Infortuni</h3>
-                    <div class="read-only-value injuries-text" id="infortuni">Scarica bruciatura sul braccio sinistro
+                    <div class="read-only-value injuries-text" id="infortuni">
                     </div>
                 </div>
             </div>
@@ -192,27 +197,27 @@
                 <h3 class="control-title" id="infostato" onclick="popinfostato()">Condizioni di Stato 🛈</h3>
                 <div class="status-grid">
                     <label class="status-toggle">
-                        <input type="checkbox" id="Confuso" hidden  onchange="modificastato('Confuso')">
+                        <input type="checkbox" id="Confuso"   onchange="modificastatoselvatico('Confuso')">
                         <span class="status-label type-null" id="labelConfuso">Confuso</span>
                     </label>
                     <label class="status-toggle">
-                        <input type="checkbox" id="Paralizzato" hidden  onchange="modificastato('Paralizzato')">
+                        <input type="checkbox" id="Paralizzato"   onchange="modificastatoselvatico('Paralizzato')">
                         <span class="status-label type-null" id="labelParalizzato">Paralizzato</span>
                     </label>
                     <label class="status-toggle">
-                        <input type="checkbox" id="Scottato" hidden  onchange="modificastato('Scottato')">
+                        <input type="checkbox" id="Scottato"   onchange="modificastatoselvatico('Scottato')">
                         <span class="status-label type-null" id="labelScottato">Scottato</span>
                     </label>
                     <label class="status-toggle">
-                        <input type="checkbox" id="Avvelenato" hidden  onchange="modificastato('Avvelenato')">
+                        <input type="checkbox" id="Avvelenato"   onchange="modificastatoselvatico('Avvelenato')">
                         <span class="status-label type-null" id="labelAvvelenato">Avvelenato</span>
                     </label>
                     <label class="status-toggle">
-                        <input type="checkbox" id="Addormentato" hidden onchange="modificastato('Addormentato')">
+                        <input type="checkbox" id="Addormentato"  onchange="modificastatoselvatico('Addormentato')">
                         <span class="status-label type-null" id="labelAddormentato">Addormentato</span>
                     </label>
                     <label class="status-toggle">
-                        <input type="checkbox" id="Congelato" hidden onchange="modificastato('Congelato')">
+                        <input type="checkbox" id="Congelato"  onchange="modificastatoselvatico('Congelato')">
                         <span class="status-label type-null" id="labelCongelato">Congelato</span>
                     </label>
                 </div>
@@ -223,7 +228,7 @@
                     <!-- Attack -->
                     <div class="combat-stage-group">
                         <span class="combat-stage-label">Attacco</span>
-                        <select class="combat-stage-select" id="combat-stage-atk" onchange="combatstage('atk',this.value)">
+                        <select class="combat-stage-select" id="combat-stage-atk" onchange="combatstageselvatico('atk',this.value)">
                             <option value="-6" class="combat-stage-neg">-6</option>
                             <option value="-5" class="combat-stage-neg">-5</option>
                             <option value="-4" class="combat-stage-neg">-4</option>
@@ -243,7 +248,7 @@
                     <!-- Defense -->
                     <div class="combat-stage-group">
                         <span class="combat-stage-label">Difesa</span>
-                        <select class="combat-stage-select" id="combat-stage-def" onchange="combatstage('def',this.value)">
+                        <select class="combat-stage-select" id="combat-stage-def" onchange="combatstageselvatico('def',this.value)">
                             <option value="-6" class="combat-stage-neg">-6</option>
                             <option value="-5" class="combat-stage-neg">-5</option>
                             <option value="-4" class="combat-stage-neg">-4</option>
@@ -263,7 +268,7 @@
                     <!-- Special Attack -->
                     <div class="combat-stage-group">
                         <span class="combat-stage-label">Att. Sp.</span>
-                        <select class="combat-stage-select" id="combat-stage-spatk" onchange="combatstage('satk',this.value)">
+                        <select class="combat-stage-select" id="combat-stage-spatk" onchange="combatstageselvatico('satk',this.value)">
                             <option value="-6" class="combat-stage-neg">-6</option>
                             <option value="-5" class="combat-stage-neg">-5</option>
                             <option value="-4" class="combat-stage-neg">-4</option>
@@ -283,7 +288,7 @@
                     <!-- Special Defense -->
                     <div class="combat-stage-group">
                         <span class="combat-stage-label">Dif. Sp.</span>
-                        <select class="combat-stage-select" id="combat-stage-spdef" onchange="combatstage('sdef',this.value)">
+                        <select class="combat-stage-select" id="combat-stage-spdef" onchange="combatstageselvatico('sdef',this.value)">
                             <option value="-6" class="combat-stage-neg">-6</option>
                             <option value="-5" class="combat-stage-neg">-5</option>
                             <option value="-4" class="combat-stage-neg">-4</option>
@@ -303,7 +308,7 @@
                     <!-- Speed -->
                     <div class="combat-stage-group">
                         <span class="combat-stage-label">Velocità</span>
-                        <select class="combat-stage-select" id="combat-stage-speed" onchange="combatstage('vel',this.value)">
+                        <select class="combat-stage-select" id="combat-stage-speed" onchange="combatstageselvatico('vel',this.value)">
                             <option value="-6" class="combat-stage-neg">-6</option>
                             <option value="-5" class="combat-stage-neg">-5</option>
                             <option value="-4" class="combat-stage-neg">-4</option>
@@ -346,7 +351,7 @@
         if (!utenteloggato()) {
             window.location.href = "/index.html";
         }
-        stampapokemon();
+        stampapokemonselvatici();
         stampastati();
         stampamosse();
     }

@@ -31,7 +31,47 @@
                 <div class="info-row">
                     <div class="info-group">
                         <label for="pokemonTypes">Tipi</label>
-                        <input type="text" id="tipo1"><input type="text" id="tipo2">
+                        <select id="tipo1">
+                            <option value="Normale">Normale</option>
+                                <option value="Fuoco">Fuoco</option>
+                                <option value="Acqua">Acqua</option>
+                                <option value="Erba">Erba</option>
+                                <option value="Elettro">Elettro</option>
+                                <option value="Ghiaccio">Ghiaccio</option>
+                                <option value="Lotta">Lotta</option>
+                                <option value="Veleno">Veleno</option>
+                                <option value="Terra">Terra</option>
+                                <option value="Volante">Volante</option>
+                                <option value="Psico">Psico</option>
+                                <option value="Coleottero">Coleottero</option>
+                                <option value="Roccia">Roccia</option>
+                                <option value="Spettro">Spettro</option>
+                                <option value="Drago">Drago</option>
+                                <option value="Buio">Buio</option>
+                                <option value="Acciaio">Acciaio</option>
+                                <option value="Folletto">Folletto</option>
+                        </select>
+                        <select id="tipo2">
+                                <option selected value="">Monotipo</option>
+                                <option value="Normale">Normale</option>
+                                <option value="Fuoco">Fuoco</option>
+                                <option value="Acqua">Acqua</option>
+                                <option value="Erba">Erba</option>
+                                <option value="Elettro">Elettro</option>
+                                <option value="Ghiaccio">Ghiaccio</option>
+                                <option value="Lotta">Lotta</option>
+                                <option value="Veleno">Veleno</option>
+                                <option value="Terra">Terra</option>
+                                <option value="Volante">Volante</option>
+                                <option value="Psico">Psico</option>
+                                <option value="Coleottero">Coleottero</option>
+                                <option value="Roccia">Roccia</option>
+                                <option value="Spettro">Spettro</option>
+                                <option value="Drago">Drago</option>
+                                <option value="Buio">Buio</option>
+                                <option value="Acciaio">Acciaio</option>
+                                <option value="Folletto">Folletto</option>
+                        </select>
                     </div>
                     <div class="info-group">
                         <label for="level">Livello</label>
@@ -69,7 +109,7 @@
             <div class="pokemon-image">
                 <div class="image-placeholder">
                     <span>Carica immagine</span>
-                    <input type="text" id="pokemonImage">
+                    <input type="text" id="pokemonImage"><button id="caricaimmagine">Carica immagine</button>
                 </div>
             </div>
         </div>
@@ -133,6 +173,66 @@
     </div>
 
     <script src="index.js"></script>
+
+
+      <script>
+    const form = document.getElementById('caricaimmagine');
+    const input = document.getElementById('nomep');
+    const result = document.getElementById('pokemonImage');
+
+    const API_BASE = 'https://pokeapi.co/api/v2/pokemon/';
+
+    form.addEventListener('click', async (e) => {
+      e.preventDefault();
+          result.value='';
+      const name = input.value.trim();
+      if (!name) return;
+      result.innerHTML = '<div class="loader" aria-hidden="true"></div> <div class="meta">Caricamento...</div>';
+
+      try {
+        const query = encodeURIComponent(name.toLowerCase());
+        const res = await fetch(API_BASE + query);
+        if (!res.ok) {
+          if (res.status === 404) throw new Error('Pokémon non trovato. Controlla il nome.');
+          throw new Error('Errore nella richiesta: ' + res.status);
+        }
+        const data = await res.json();
+
+        const artwork = data.sprites && data.sprites.other && data.sprites.other['official-artwork'] && data.sprites.other['official-artwork'].front_default;
+
+        if (!artwork) {
+          result.innerHTML = `<div class="error">Artwork ufficiale non disponibile per ${escapeHtml(data.name)}</div>`;
+          return;
+        }
+
+        result.value = `${escapeHtml(artwork)}
+        `;
+
+      } catch (err) {
+        result.innerHTML = `<div class="error">${escapeHtml(err.message)}</div>`;
+      }
+    });
+
+    function escapeHtml(s){
+      return String(s)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
+    }
+
+    function capitalize(s){
+      if (!s) return s; return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        input.value = '';
+        result.value = '';
+      }
+    });
+  </script>
 </body>
 
 </html>

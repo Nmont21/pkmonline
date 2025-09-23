@@ -643,6 +643,7 @@ async function stampaquickteam() {
 
     const container = document.getElementById('grigliateam');
     pokemons.forEach(element => {
+
         if (element.inbox == 0 && parseInt(element.hpnow) > 0) {
             const img = document.createElement('div');
             img.classList.add("team-slot"); // Aggiungi la classe CSS
@@ -666,6 +667,36 @@ async function stampaquickteam() {
     });
 
 }
+
+async function stampaquickteamselvatici() {
+    var pokemons = await getuserpkmn();
+
+    const container = document.getElementById('grigliateam');
+    pokemons.forEach(element => {
+        if (element.inbox == 0 && parseInt(element.hpnow) > 0) {
+            const img = document.createElement('div');
+            img.classList.add("team-slot"); // Aggiungi la classe CSS
+            img.innerHTML = `<img src="${element.sprite}"
+            class="pokemon-img-home" >
+                <div class="pokemon-info">
+                    <div class="pokemon-name">${element.nome}</div>
+                    <div class="pokemon-level">Lv. ${element.livello}</div>
+                </div>`
+            img.onclick = () => {
+                sessionStorage.setItem('pokemon', JSON.stringify(element));
+                location.href = "selvatici.html";
+
+
+            };
+
+            // Appendi l'immagine al contenitore
+            container.appendChild(img);
+        }
+
+    });
+
+}
+
 
 async function stampatuttipokemon() {
     var pokemons = await getuserpkmn();
@@ -720,7 +751,7 @@ function stampapokemon() {
     document.getElementById('infortuni').innerHTML = pokemon.infortuni;
 
     var hpmax = parseInt(pokemon.hpmax);
-    hpmax = hpmax - (hpmax * 0.1 * parseInt(pokemon.infortuni));
+    hpmax = parseInt(hpmax - (hpmax * 0.1 * parseInt(pokemon.infortuni)));
 
     document.getElementById('hpmax').innerHTML = hpmax;
 
@@ -743,6 +774,202 @@ function stampapokemon() {
         container.appendChild(img);
     }
 
+}
+
+function stampapokemonselvatici() {
+    const pokemon = JSON.parse(sessionStorage.getItem('pokemon'));
+    document.getElementById('nome').innerHTML = pokemon.nome;
+    document.getElementById('livello').innerHTML = pokemon.livello;
+    document.getElementById('esperienza').innerHTML = pokemon.exp;
+    document.getElementById('sesso').innerHTML = pokemon.sesso;
+    document.getElementById('natura').innerHTML = pokemon.natura;
+    document.getElementById('abilita').innerHTML = pokemon.abilita;
+    document.getElementById('sprite').src = pokemon.sprite;
+
+    document.getElementById('hpnow').value = pokemon.hpnow;
+    document.getElementById('hp').value = pokemon.pvmax;
+    document.getElementById('atk').value = pokemon.atk;
+    document.getElementById('satk').value = pokemon.satk;
+    document.getElementById('def').value = pokemon.dif;
+    document.getElementById('sdef').value = pokemon.sdif;
+    document.getElementById('vel').value = pokemon.velocita;
+    document.getElementById('fev').value = pokemon.evafisica;
+    document.getElementById('sev').value = pokemon.evaspeciale;
+    document.getElementById('vev').value = pokemon.evavel;
+    document.getElementById('infortuni').value = pokemon.infortuni;
+
+    var hpmax = parseInt(pokemon.hpmax);
+    hpmax = parseInt(hpmax - (hpmax * 0.1 * parseInt(pokemon.infortuni)));
+
+    document.getElementById('hpmax').value = hpmax;
+
+    //stampo tipi dei pokemon
+    const container = document.getElementById('grigliatipi');
+    const tipi = JSON.parse(sessionStorage.getItem('pokemon')).tipi;
+    if (tipi[0] != '') {
+        const img = document.createElement('span');
+        img.classList.add('type-badge');
+        img.classList.add(supportoclasse(tipi[0]));
+        // Aggiungi la classe CSS
+        img.innerHTML = tipi[0];
+        container.appendChild(img);
+    }
+    if (tipi[1] != '') {
+        const img = document.createElement('span');
+        img.classList.add('type-badge');
+        img.classList.add(supportoclasse(tipi[1]));
+        img.innerHTML = tipi[1];
+        container.appendChild(img);
+    }
+
+}
+
+function calcolavalorecs(valore){
+    if (valore == '-6')
+        return 0.4;
+    if (valore == '-5')
+        return 0.5;
+    if (valore == '-4')
+        return 0.6;
+    if (valore == '-3')
+        return 0.7;
+    if (valore == '-2')
+        return 0.8;
+    if (valore == '-1')
+        return 0.9;
+    if (valore == '0')
+        return 1;
+    if (valore == '+1')
+        return 1.2;
+    if (valore == '+2')
+        return 1.4;
+    if (valore == '+3')
+        return 1.6;
+    if (valore == '+4')
+        return 1.8;
+    if (valore == '+5')
+        return 2;
+    if (valore == '+6')
+        return 2.2;
+    
+}
+
+function getpokemonstat(stat){
+    const pokemon=JSON.parse(sessionStorage.getItem('pokemon'));
+    if (stat=='atk')
+        return parseInt(pokemon.atk);
+    if (stat=='def')
+        return parseInt(pokemon.dif);
+    if (stat=='satk')
+        return parseInt(pokemon.satk);
+    if (stat=='sdef')
+        return parseInt(pokemon.sdif);
+    if (stat=='vel')
+        return parseInt(pokemon.velocita);
+}
+
+function combatstage(tipo,valore){
+
+    var valoreattuale=getpokemonstat(tipo);
+    var aggiornato= parseInt(valoreattuale*calcolavalorecs(valore));
+    document.getElementById(tipo).innerHTML=aggiornato;
+}
+
+function combatstageselvatico(tipo,valore){
+     ricalcolaselvatico();
+    var valoreattuale=document.getElementById(tipo).value;
+    var aggiornato= parseInt(valoreattuale*calcolavalorecs(valore));
+    document.getElementById(tipo).value=aggiornato;
+}
+
+function ricalcolaselvatico(){
+        let poke = JSON.parse(sessionStorage.getItem("pokemon")); // Assicurati che sia salvato con questa chiave
+    if (!poke) return;
+
+    let livello = parseInt(document.getElementById("livelloselvatico").value);
+
+    let stats = [
+        { nome: "HP", val: parseInt(poke.hp) },
+        { nome: "ATK", val: parseInt(poke.atk) },
+        { nome: "DEF", val: parseInt(poke.dif) },
+        { nome: "SPATK", val: parseInt(poke.satk) },
+        { nome: "SPDEF", val: parseInt(poke.sdif) },
+        { nome: "VEL", val: parseInt(poke.velocita) }
+    ];
+
+    let punti = livello + 10;
+    let ordine = [...stats].sort((a, b) => b.val - a.val);
+
+    function mantieneGerarchia() {
+        let ordAttuale = [...ordine].sort((a, b) => b.val - a.val);
+        for (let i = 0; i < ordAttuale.length - 1; i++) {
+            if (ordAttuale[i].val < ordAttuale[i+1].val) return false;
+        }
+        return true;
+    }
+
+    // Distribuzione base
+    let tentativi = 0;
+    while (punti > 0 && tentativi < 10000) {
+        tentativi++;
+        for (let i = 0; i < ordine.length && punti > 0; i++) {
+            let candidato = ordine[i];
+            candidato.val++;
+            if (mantieneGerarchia()) {
+                punti--;
+            } else {
+                candidato.val--; // rollback
+            }
+        }
+    }
+
+    // Fallback distribuzione a blocchi
+    while (punti > 0) {
+        let assegnato = false;
+        for (let i = 0; i < ordine.length && punti > 0; i++) {
+            let candidato = ordine[i];
+            let toAdd = Math.min(2, punti);
+            candidato.val += toAdd;
+            if (mantieneGerarchia()) {
+                punti -= toAdd;
+                assegnato = true;
+            } else {
+                candidato.val -= toAdd;
+            }
+        }
+        if (!assegnato) break;
+    }
+
+    // Calcolo statistiche derivate
+    let hpFinal = ordine.find(o => o.nome === "HP").val;
+    let defFinal = ordine.find(o => o.nome === "DEF").val;
+    let spdefFinal = ordine.find(o => o.nome === "SPDEF").val;
+    let velFinal = ordine.find(o => o.nome === "VEL").val;
+
+    let hpmax = livello + (hpFinal * 3) + 10;
+
+    function calcEvasion(statVal) {
+        const base = Math.floor(statVal / 5);
+        const bonus = Math.min(6, base);
+        return base + bonus;
+    }
+
+    let evafisica = calcEvasion(defFinal);
+    let evaspeciale = calcEvasion(spdefFinal);
+    let evavel = calcEvasion(velFinal);
+
+    // Aggiorna la pagina
+    document.getElementById("hp").value = hpFinal;
+    document.getElementById("atk").value = ordine.find(o => o.nome === "ATK").val;
+    document.getElementById("def").value = defFinal;
+    document.getElementById("satk").value = ordine.find(o => o.nome === "SPATK").val;
+    document.getElementById("sdef").value = spdefFinal;
+    document.getElementById("vel").value = velFinal;
+    document.getElementById("hpmax").value = hpmax;
+    document.getElementById("hpnow").value = hpmax;
+    document.getElementById("fev").value = evafisica;
+    document.getElementById("sev").value = evaspeciale;
+    document.getElementById("vev").value = evavel;
 }
 
 async function getpkmn() {
@@ -869,6 +1096,7 @@ async function modificastato(stato) {
         await getpkmn();
     }
 }
+
 
 async function addstato(stato) {
 
