@@ -748,6 +748,9 @@ function stampapokemon() {
     document.getElementById('fev').innerHTML = pokemon.evafisica;
     document.getElementById('sev').innerHTML = pokemon.evaspeciale;
     document.getElementById('vev').innerHTML = pokemon.evavel;
+    document.getElementById('over').innerHTML = pokemon.over;
+    document.getElementById('swim').innerHTML = pokemon.swim;
+    document.getElementById('fly').innerHTML = pokemon.fly;
     document.getElementById('infortuni').innerHTML = pokemon.infortuni;
 
     var hpmax = parseInt(pokemon.hpmax);
