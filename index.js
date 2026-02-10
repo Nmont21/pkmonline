@@ -372,6 +372,9 @@ async function addpokemon() {
     var evaf = document.getElementById('physEvade').value;
     var evas = document.getElementById('specEvade').value;
     var evav = document.getElementById('speedEvade').value;
+    var overland = document.getElementById('over').value;
+    var nuoto = document.getElementById('swim').value;
+    var volo = document.getElementById('fly').value;
     var infoabilit=document.getElementById('infoabilita').value;
     var infort = '0';
     var userData = {
@@ -398,7 +401,10 @@ async function addpokemon() {
         evafisica: evaf,
         evaspeciale: evas,
         evavel: evav,
-        infortuni: infort
+        infortuni: infort,
+        over: overland,
+        swim: nuoto,
+        fly: volo
     };
 
     try {
@@ -455,7 +461,10 @@ app.post('/addpokemon', async (req, res) => {
             evafisica: req.body.evafisica,
             evaspeciale: req.body.evaspeciale,
             evavel: req.body.evavel,
-            infortuni: req.body.infortuni
+            infortuni: req.body.infortuni,
+            over: req.body.over,
+            swim: req.body.swim,
+            fly: req.body.fly
         };
 
         const result = await collection.insertOne(pkmn);
