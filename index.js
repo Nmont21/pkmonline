@@ -1843,7 +1843,7 @@ app.post('/cura', async (req, res) => {
         // Aggiornamento del documento
         const result = await collection.updateOne(
             { _id: new ObjectId(req.body.idpokemon) },
-            { $set: { hpnow: req.body.hpnow, stato: req.body.stato } }
+            { $set: { hpnow: req.body.hpnow, stato: req.body.stato, infortuni:"0" } }
         );
 
         // Controllo del risultato
