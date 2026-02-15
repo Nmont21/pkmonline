@@ -5,6 +5,7 @@ var cors = require('cors');
 const express = require('express');
 const path = require('path');
 const { log } = require('console');
+const { getRandomValues } = require('crypto');
 const uri = "mongodb+srv://argentonik:pe2SXS5YdMmYThoc@clusterpkmn.cpxpx.mongodb.net/?retryWrites=true&w=majority&appName=Clusterpkmn";
 
 
@@ -233,6 +234,8 @@ function nascondipop() {
 async function usaitem() {
     mail = sessionStorage.getItem('mail')
     itemName = JSON.parse(sessionStorage.getItem('item'));
+if(itemName.nome.includes("Ball"))
+    alert("Risultato del d100: " + (Math.floor(Math.random() * 100) + 1));
     var userData = {
         email: mail,
         oggetto: itemName._id
