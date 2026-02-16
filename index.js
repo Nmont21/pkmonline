@@ -1798,9 +1798,10 @@ async function curateam() {
         if (element.inbox == '0') {
             cura(element);
         }
-        alert('Il tuo team è stato curato!')
+        
 
     });
+    alert('Il tuo team è stato curato!')
 }
 
 async function cura(element) {
