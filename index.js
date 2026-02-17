@@ -1499,7 +1499,7 @@ async function aggiungimossa() {
 
     var userData = {
         id: idpokemon,
-        mossa: imossa
+        mossa: imossa.trim()
     }
 
     try {
