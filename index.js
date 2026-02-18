@@ -1495,12 +1495,18 @@ app.post('/prelevapokemon', async (req, res) => {
 ///--------------------Aggiunta mosse------------------------------
 async function aggiungimossa() {
     var idpokemon = document.getElementById('idpokemon').value;
-    var imossa = document.getElementById('nomemossa').value;
+    var testoMosse = document.getElementById('nomemossa').value;
+
+    // Divide per riga, rimuove spazi e righe vuote
+    var listaMosse = testoMosse
+        .split('\n')
+        .map(mossa => mossa.trim())
+        .filter(mossa => mossa.length > 0);
 
     var userData = {
         id: idpokemon,
-        mossa: imossa.trim()
-    }
+        mosse: listaMosse
+    };
 
     try {
         const response = await fetch('/aggiungimossa', {
@@ -1513,7 +1519,7 @@ async function aggiungimossa() {
 
         if (response.ok) {
             const result = await response.json();
-            alert('Mossa aggiunto con successo');
+            alert('Mosse aggiunte con successo');
         } else {
             const error = await response.text();
             alert('Errore: ' + error);
@@ -1522,30 +1528,33 @@ async function aggiungimossa() {
         console.error('Errore nella richiesta:', error);
         alert('Errore nella richiesta');
     }
-};
+}
+
 
 app.post('/aggiungimossa', async (req, res) => {
-
     try {
         const collection = db.collection('pokemon');
 
-        // Creazione del nuovo utente
-
-
-        const result = await collection.updateOne({
-            _id: new ObjectId(req.body.id)
-        }
-            , {
+        const result = await collection.updateOne(
+            {
+                _id: new ObjectId(req.body.id)
+            },
+            {
                 $push: {
-                    mosse: req.body.mossa                    
+                    mosse: {
+                        $each: req.body.mosse
+                    }
                 }
-            });
-        res.status(201).json(result);
+            }
+        );
+
+        res.status(200).json(result);
     } catch (err) {
-        console.error('Errore nella creazione dell\'utente', err);
-        res.status(500).send('Errore nella creazione dell\'utente');
+        console.error('Errore nell\'aggiunta delle mosse', err);
+        res.status(500).send('Errore nell\'aggiunta delle mosse');
     }
 });
+
 
 async function caricamossa() {
     var imossa = document.getElementById('nomemossa').value;
